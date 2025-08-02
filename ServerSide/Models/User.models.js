@@ -59,11 +59,11 @@ userSchema.methods.generateTokens = function () {
     {
       _id: this._id, 
       email : this.email,
-      username : this.username
+      username: this.username,
     } , 
     process.env.ACCESS_SECRET_TOKEN,
     {
-      expireIn: process.env.ACCESS_TOKEN_EXPIERY
+      expiresIn: process.env.ACCESS_TOKEN_EXPIERY
     }
   )
 }
@@ -75,7 +75,7 @@ userSchema.methods.generateRefreshTokens = function () {
     } , 
     process.env.REFRESH_SECRET_TOKEN,
     {
-      expireIn: process.env.REFRESH_TOKEN_EXPIERY
+      expiresIn: process.env.REFRESH_TOKEN_EXPIERY
     }
   )
 }

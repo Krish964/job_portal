@@ -1,4 +1,6 @@
-import {v2 as cloudinary} from "cloudinary"
+import { v2 as cloudinary } from "cloudinary"
+import dotenv from "dotenv";
+dotenv.config();
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -12,11 +14,12 @@ try {
   if (!localfilePath) return null;
 
   // UPLOAD FILE ON CLOUDINARY
-   const response = await cloudinary.uploader.upload(localfilePath, {
+  const response = await cloudinary.uploader.upload(localfilePath, {
     resource_type: "auto"
   })
   // file has been uploaded successfully
-  console.log("file has been uploaded succesfully" , response.url)
+  console.log("file has been uploaded succesfully", response.url)
+  return response;
 } catch (error) {
   console.log("file has not been uploaded" , error)
 }

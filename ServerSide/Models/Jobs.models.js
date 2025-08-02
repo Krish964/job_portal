@@ -6,7 +6,7 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required : true
   },
-  package: {
+  sallary: {
     type: Number,
     required : true
   }, 

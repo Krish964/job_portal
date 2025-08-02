@@ -1,34 +1,28 @@
 import { Application } from "../Models/application.models.js";
-import { User } from "../Models/User.models.js";
-import { JobDetail } from "../Models/Jobs.models.js";
 
-export const applyJob = async (req, res) => {
+export const handleJobData = async (req, res) => {
+  const { title, company, sallary, username, job_type, resume } = req.body;
+
+  // Field validation (make SURE field names match what Mongoose wants)
+  if (!username || !title || !company || !job_type || !sallary) {
+    return res.status(400).json({ error: "Required fields are missing" });
+  }
+
   try {
-    const { jobId } = req.body;
-    const userId = req.user._id; // JWT se user id milegi
-    const resumePath = req.body.resume; // Ya file upload system ho toh file path
-
-    // Optional: check if already applied
-    const alreadyApplied = await Application.findOne({ user: userId, job: jobId });
-    if (alreadyApplied) {
-      return res.status(400).json({ message: "Already applied for this job" });
-    }
-
-    const application = new Application({
-      user: userId,
-      job: jobId,
-      resume: resumePath,
+    // Directly create and save the document
+    const newApplication = await Application.create({
+      username,
+      title,
+      company,
+      sallary,
+      job_type,
+      resume,
+      status: "pending",
     });
 
-    await application.save();
-
-    res.status(201).json({
-      message: "Job application submitted successfully",
-      application,
-    });
-
+    return res.status(201).json({ message: "Application saved successfully", application: newApplication });
   } catch (error) {
-    console.error("Apply Job Error:", error);
-    res.status(500).json({ error: "Failed to apply for job" });
+    console.log(`Error occurred in saving application: ${error}`);
+    return res.status(500).json({ error: "Internal server error" });
   }
 };

@@ -26,7 +26,7 @@ export const registerUser = async (req, res) => {
     }
 
     // 3. Check if resume uploaded
-    const resumeLocalPath = req.files?.resume?.[0]?.path;
+    const resumeLocalPath = req.file?.path;
     if (!resumeLocalPath) {
       return res.status(400).json({ error: "Resume file is required" });
     }

@@ -1,68 +1,103 @@
 import React from "react";
 import { MainPageNavbar, Jobs, Footer } from "./index";
-import MainpageImg from "/src/assets/Company-amico.png";
-function MainPage() {
+import { motion } from "framer-motion";
 
+
+// Use your background image path here (public/assets recommended)
+import backgroundImage from "/src/assets/backgroundImage3.jpg"; 
+
+
+function MainPage() {
   return (
     <>
       <MainPageNavbar />
-      <main>
-        <div>
-          <div className="Upper flex p-5 my-8 justify-between items-center mx-5">
-            <div className="left flex flex-col items-start">
-              <h1 className="text-6xl font-bold text-blue-950">
-                Find Your next Opportunity
-              </h1>
-              <form className="w-full max-w-3xl mx-auto flex flex-col md:flex-row gap-4 p-4 bg-white shadow rounded-xl items-center mt-8">
-                {/* Keyword input */}
-                <div className="flex items-center w-full md:w-2/5 bg-gray-100 rounded-lg px-3 py-2">
-                  <input
-                    type="text"
-                    className="bg-transparent outline-none w-full text-lg"
-                    placeholder="Job title, keyword..."
-                    name="keyword"
-                  />
-                </div>
 
-                {/* Location input */}
-                <div className="flex items-center w-full md:w-2/5 bg-gray-100 rounded-lg px-3 py-2">
-                  <input
-                    type="text"
-                    className="bg-transparent outline-none w-full text-lg"
-                    placeholder="Location"
-                    name="location"
-                  />
-                </div>
+      <main className="bg-gradient-to-br from-black via-gray-900 to-cyan-900 text-cyan-200 pb-20 min-h-screen">
 
-                {/* Search button */}
-                <button
-                  type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 px-7 py-3 rounded-lg text-white font-bold text-lg transition"
+        {/* HERO SECTION (fully centered, no side image, background applied) */}
+        <section
+          className="relative flex items-center justify-center min-h-[70vh] w-full"
+          style={{
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat"
+          }}
+        >
+          {/* Dark overlay for readability */}
+          <div className="absolute inset-0 bg-black bg-opacity-80 backdrop-blur-md z-0"></div>
+          {/* Centered content */}
+          <div className="relative z-10 flex flex-col items-center justify-center text-center w-full max-w-2xl px-6 py-20">
+            <h1 className="text-5xl md:text-6xl font-extrabold tracking-wide bg-gradient-to-r from-cyan-400 via-teal-300 to-purple-400 bg-clip-text text-transparent drop-shadow-lg select-none mb-10">
+              Find Your Next Opportunity
+            </h1>
+            {/* Search Form */}
+            <form
+              className="bg-black/60 backdrop-blur-xl rounded-xl p-6 shadow-2xl w-full flex flex-col md:flex-row gap-5 items-center"
+              onSubmit={e => e.preventDefault()}
+            >
+              {/* Keyword */}
+              <div className="relative w-full md:w-2/5">
+                <input
+                  type="text"
+                  name="keyword"
+                  id="keyword"
+                  placeholder=" "
+                  className="peer w-full rounded-lg bg-transparent border border-cyan-600 px-4 py-3 text-cyan-100 placeholder-transparent focus:border-cyan-400 outline-none"
+                />
+                <label
+                  htmlFor="keyword"
+                  className="absolute left-4 top-3 text-cyan-500 text-sm cursor-text transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-cyan-400 peer-placeholder-shown:text-base peer-focus:top-[-10px] peer-focus:text-cyan-400 peer-focus:text-sm select-none"
                 >
-                  Search
-                </button>
-              </form>
-            </div>
-            <div className="right flex justify-center">
-              <img className="w-[550px]" src={MainpageImg} alt="" />
-            </div>
+                  Job title, keyword...
+                </label>
+              </div>
+              {/* Location */}
+              <div className="relative w-full md:w-2/5">
+                <input
+                  type="text"
+                  name="location"
+                  id="location"
+                  placeholder=" "
+                  className="peer w-full rounded-lg bg-transparent border border-cyan-600 px-4 py-3 text-cyan-100 placeholder-transparent focus:border-cyan-400 outline-none"
+                />
+                <label
+                  htmlFor="location"
+                  className="absolute left-4 top-3 text-cyan-500 text-sm cursor-text transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-cyan-400 peer-placeholder-shown:text-base peer-focus:top-[-10px] peer-focus:text-cyan-400 peer-focus:text-sm select-none"
+                >
+                  Location
+                </label>
+              </div>
+              {/* Search Button */}
+              <button
+                type="submit"
+                className="w-full md:w-auto bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-700 text-white font-bold rounded-lg px-8 py-3 shadow-lg transition-transform active:scale-95"
+              >
+                Search
+              </button>
+            </form>
           </div>
+        </section>
 
-          <div className="lower">
-            <h1 className="text-5xl font-bold text-blue-950 text-center py-5 my-7">Jobs You Might Be Interested In</h1>
-          </div>
-        </div>
+        {/* Jobs Header */}
+        <section className="max-w-7xl mx-auto">
+          <h2 className="text-5xl font-extrabold text-center text-cyan-300 mt-20 mb-12 select-none drop-shadow-lg">
+            Jobs You Might Be Interested In
+          </h2>
+        </section>
+
+        {/* Jobs List (your existing Jobs component, keep as is) */}
         <Jobs />
-        
-        <div className="ViewMore flex items-center justify-center">
-          <button className="px-7 py-3 bg-blue-600 text-white text-xl rounded-xl my-4 cursor-pointer duration-200 hover:scale-105 hover:bg-blue-800">
+
+        {/* View More Button */}
+        <div className="flex justify-center">
+          <button className="mt-12 mb-6 bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-extrabold px-8 py-4 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-300">
             View More Jobs
           </button>
         </div>
       </main>
 
-      
-      <Footer/>
+      <Footer />
     </>
   );
 }

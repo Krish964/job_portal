@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import { SignupPage, LoginPage, LandingPage, About, Contact, MainPage, ForgetPassword , AdminPage } from './Components/index'
 import { Route, Routes } from 'react-router-dom'
+import { ToastContainer } from "react-toastify";
 function App() {
   const [count, setCount] = useState(0)
 
@@ -15,8 +16,10 @@ function App() {
         <Route path='/contact' element={<Contact/>}></Route>
         <Route path='/mainpage' element={<MainPage/>}></Route>
         <Route path='/forgot-password' element={<ForgetPassword/>}></Route>
-        <Route path='/admin-Pannel' element={<AdminPage/>}></Route>
+        <Route path='/adminPanel' element={<AdminPage/>}></Route>
       </Routes>
+
+      <ToastContainer />
     </>
   )
 }

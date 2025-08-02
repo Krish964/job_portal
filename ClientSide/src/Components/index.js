@@ -10,8 +10,9 @@ import MainPage from "./MainPage";
 import Jobs from "./jobsData";
 import ForgetPassword from "./ForgetPassword";
 import AdminPage from "./adminPage";
+import Logout from "./Logout";
 
-export { LandingPageNav, Footer, LoginPage, SignupPage, LandingPage, About, Contact, MainPageNavbar, MainPage, Jobs, ForgetPassword , AdminPage };
+export { LandingPageNav, Footer, LoginPage, SignupPage, LandingPage, About, Contact, MainPageNavbar, MainPage, Jobs, ForgetPassword , AdminPage , Logout };
 
 
 
