@@ -107,7 +107,7 @@ function JobCard({ job, onClick, isSelected }) {
         {job.descriptionBreakdown?.oneSentenceJobSummary && (
           <p className="mt-2 text-gray-300 text-sm line-clamp-2" title={job.descriptionBreakdown.oneSentenceJobSummary}>
             {job.descriptionBreakdown.oneSentenceJobSummary}
-          </p>
+          </p>  
         )}
       </div>
 
