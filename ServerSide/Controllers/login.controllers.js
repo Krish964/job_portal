@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { User } from "../Models/User.models.js";
 
 export const loginUser = async (req, res) => {
@@ -16,21 +17,30 @@ export const loginUser = async (req, res) => {
 
     // Check hardcoded admin first
     if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      // Return admin user object with special flag
+      const adminPayload = {
+        _id: "admin-id-unique", // unique admin id
+        username: "Admin-Page",
+        email: ADMIN_EMAIL,
+        isAdmin: true,
+      };
+
+      // Manually generate tokens for admin
+      const accessToken = jwt.sign(adminPayload, process.env.ACCESS_SECRET_TOKEN, {
+        expiresIn: process.env.ACCESS_TOKEN_EXPIERY,
+      });
+      const refreshToken = jwt.sign(adminPayload, process.env.REFRESH_SECRET_TOKEN, {
+        expiresIn: process.env.REFRESH_TOKEN_EXPIERY,
+      });
+
       return res.status(200).json({
         message: "Admin login successful",
-        user: {
-          _id: "admin-id-unique",        // aap jo bhi unique id dena chaho
-          username: "Admin-Page",
-          email: ADMIN_EMAIL,
-          isAdmin: true,                 // flag to identify admin in front/backend
-        },
-        accessToken: "admin-access-token",    // ya koi valid JWT admin token generate karo
-        refreshToken: "admin-refresh-token",
+        user: adminPayload,
+        accessToken,
+        refreshToken,
       });
     }
 
-    // Normal user flow
+    // Normal user login flow
     const user = await User.findOne({ email });
     if (!user) {
       console.log("User not found for email:", email);
@@ -43,13 +53,14 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
+    // Generate tokens via User model methods
     const accessToken = user.generateTokens();
     const refreshToken = user.generateRefreshTokens();
 
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false });
 
-    res.status(200).json({
+    return res.status(200).json({
       message: "Login successful",
       user: {
         _id: user._id,
@@ -60,10 +71,8 @@ export const loginUser = async (req, res) => {
       accessToken,
       refreshToken,
     });
-
-    console.log("Login successful for user:", email);
   } catch (error) {
     console.error("Error during login:", error);
-    res.status(500).json({ error: "An internal server error occurred" });
+    return res.status(500).json({ error: "An internal server error occurred" });
   }
 };

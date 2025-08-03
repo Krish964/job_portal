@@ -1,23 +1,37 @@
 import { Application } from "../Models/application.models.js";
 
 export const handleJobData = async (req, res) => {
-  const { title, company, sallary, username, job_type, resume } = req.body;
+  const {
+    title,
+    owner,
+    descriptionBreakdown,
+    username,
+    email ,
+    type,
+    resume,
+  } = req.body;
 
-  // Field validation (make SURE field names match what Mongoose wants)
-  if (!username || !title || !company || !job_type || !sallary) {
+  console.log("Received application data:", req.body);
+
+  // Nested fields extraction:
+  const companyName = owner?.companyName || "";
+  const salaryMin = descriptionBreakdown?.salaryRangeMinYearly;
+  
+
+  if (!username || !title || !companyName || !type || !salaryMin) {
     return res.status(400).json({ error: "Required fields are missing" });
   }
 
   try {
-    // Directly create and save the document
     const newApplication = await Application.create({
       username,
+      email , 
       title,
-      company,
-      sallary,
-      job_type,
+      companyName,
+      salaryRangeMinYearly: salaryMin,
+      type,
       resume,
-      status: "pending",
+      status: "pending", // default status
     });
 
     return res.status(201).json({ message: "Application saved successfully", application: newApplication });

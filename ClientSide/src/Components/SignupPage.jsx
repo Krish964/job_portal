@@ -30,9 +30,14 @@ export default function SignupPage() {
         body: formData,
       });
 
-      const text = await res.text();
-      localStorage.setItem("resume" , text.resume)
+      // Parse response as JSON
+      const dataResponse = await res.json();
+
       if (res.ok) {
+        // Save data safely in localStorage
+        localStorage.setItem("resume", dataResponse.resume || "");
+        localStorage.setItem("username", dataResponse.username || data.username || "");
+
         toast.update(toastId, {
           render: "Signup successful! 🎉",
           type: "success",
@@ -40,12 +45,14 @@ export default function SignupPage() {
           autoClose: 2000,
           theme: "dark",
         });
+
+        // Navigate after short delay
         setTimeout(() => {
           navigate("/mainpage");
         }, 1200);
       } else {
         toast.update(toastId, {
-          render: text || "Signup failed!",
+          render: dataResponse.message || "Signup failed!",
           type: "error",
           isLoading: false,
           autoClose: 2500,
@@ -66,9 +73,7 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-cyan-700 px-6">
       <div
-        className="w-full max-w-4xl
-          h-auto
-          rounded-2xl shadow-2xl bg-black/85 bg-clip-padding
+        className="w-full max-w-4xl h-auto rounded-2xl shadow-2xl bg-black/85 bg-clip-padding
           backdrop-filter backdrop-blur-xl p-12 border border-cyan-700/40
           flex flex-col items-center justify-center space-y-4"
       >

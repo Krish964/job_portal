@@ -8,12 +8,8 @@ export const authenticateUser = async (req, res, next) => {
       return res.status(401).json({ message: "No token provided" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.ACCESS_SECRET_TOKEN);
     const user = await User.findById(decoded.id);
-
-    if (!user) {
-      return res.status(401).json({ message: "User not found" });
-    }
 
     req.user = user; // ✅ Yehi tumhara user set karega
     next();

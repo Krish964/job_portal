@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 function JobCard({ job, onClick, isSelected }) {
   const username = localStorage.getItem("username");
   const resumeUrl = localStorage.getItem("resume");
-  const payload = { ...job, username, resumeUrl };
+  const email = localStorage.getItem("email")
+  const payload = { ...job, username, resumeUrl , email};
 
   const [applied, setApplied] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -73,7 +74,7 @@ function JobCard({ job, onClick, isSelected }) {
         <div className="flex flex-wrap text-gray-400 text-xs mt-1 gap-x-4 gap-y-1">
           <span className="flex items-center gap-1 truncate max-w-[45%]">
             <FaBuilding className="text-cyan-500" />
-            <span title={job.companyName}>{job.companyName || "Unknown Company"}</span>
+            <span title={job.owner.companyName}>{job.owner.companyName || "Unknown Company"}</span>
           </span>
 
           <span className="flex items-center gap-1 truncate max-w-[35%]">
@@ -86,9 +87,13 @@ function JobCard({ job, onClick, isSelected }) {
           <span className="flex items-center gap-1 truncate max-w-[35%]">
             <FaMoneyBill className="text-green-400" />
             <span>
-              {job.salaryRangeMinYearly && job.salaryRangeMaxYearly
-                ? `$${job.salaryRangeMinYearly.toLocaleString()} - $${job.salaryRangeMaxYearly.toLocaleString()}`
-                : "Salary not disclosed"}
+              {job.descriptionBreakdown?.salaryRangeMinYearly && job.descriptionBreakdown?.salaryRangeMaxYearly ? (
+                <span>
+                  ${job.descriptionBreakdown.salaryRangeMinYearly.toLocaleString()} - ${job.descriptionBreakdown.salaryRangeMaxYearly.toLocaleString()}
+                </span>
+              ) : (
+                <span>Salary not disclosed</span>
+              )}
             </span>
           </span>
         </div>

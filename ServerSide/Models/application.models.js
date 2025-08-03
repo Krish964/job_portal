@@ -5,19 +5,23 @@ const applicationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  email: {
+    type : String
+  },
   title: {
     type: String,
     required: true,
   },
-  company: {
+  companyName: {
     type: String,
     required: true,
   },
-  sallary: {
+  salaryRangeMinYearly: {
     type: String,  // Aapke sample me salary "5 LPA" jaisa string hai, isliye String rakh rahe hain
     required: false,
   },
-  job_type: {
+  type: {
     type: String,
     required: true,
   },

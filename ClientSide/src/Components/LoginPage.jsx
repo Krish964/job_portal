@@ -38,6 +38,7 @@ export default function LoginPage() {
 
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("email", data.user.email);
       localStorage.setItem("username", data.user.username);
       localStorage.setItem("isAdmin", data.user.isAdmin ? "true" : "false"); // save admin flag
 
