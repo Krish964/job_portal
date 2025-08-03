@@ -10,7 +10,7 @@ import {
   faTimes,
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import Logout from "./Logout";
+import {Logout} from "./index.js";
 
 function MainPageNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,7 +36,7 @@ function MainPageNavbar() {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-cyan-600 shadow-xl">
+    <nav className="sticky top-0 z-50 bg-black backdrop-blur-md border-b border-cyan-600 shadow-xl">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-12 py-4">
         {/* Logo */}
         <NavLink to="/" className="flex items-center select-none z-50">

@@ -27,10 +27,15 @@ function MainPage() {
           {/* Dark overlay for readability */}
           <div className="absolute inset-0 bg-black bg-opacity-80 backdrop-blur-md z-0"></div>
           {/* Centered content */}
-          <div className="relative z-10 flex flex-col items-center justify-center text-center w-full max-w-2xl px-6 py-20">
-            <h1 className="text-5xl md:text-6xl font-extrabold tracking-wide bg-gradient-to-r from-cyan-400 via-teal-300 to-purple-400 bg-clip-text text-transparent drop-shadow-lg select-none mb-10">
-              Find Your Next Opportunity
-            </h1>
+          <div className="relative z-10 flex flex-col items-center justify-center text-center w-full max-w-4xl px-6 py-20">
+            <motion.h1
+              className="text-5xl md:text-6xl font-extrabold tracking-wide bg-gradient-to-r from-cyan-400 via-teal-300 to-purple-400 bg-clip-text text-transparent drop-shadow-lg select-none mb-10 text-center"
+              initial={{ opacity: 0, y: 40 , x : 40 }}
+              animate={{ opacity: 1, y: 0 , x :0 }}
+              transition={{ duration: 1.6, ease: "easeOut" }}
+            >
+              Let’s Turn Ambitions Into Opportunities
+            </motion.h1>
             {/* Search Form */}
             <form
               className="bg-black/60 backdrop-blur-xl rounded-xl p-6 shadow-2xl w-full flex flex-col md:flex-row gap-5 items-center"
@@ -87,7 +92,7 @@ function MainPage() {
         </section>
 
         {/* Jobs List (your existing Jobs component, keep as is) */}
-        <Jobs />
+        <Jobs/>
 
         {/* View More Button */}
         <div className="flex justify-center">

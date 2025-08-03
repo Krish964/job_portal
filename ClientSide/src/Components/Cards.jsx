@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { FaBuilding, FaMoneyBill, FaSuitcase } from "react-icons/fa";
+import { FaBuilding, FaMoneyBill, FaSuitcase, FaStar } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-function JobCard({ job }) {
+function JobCard({ job, onClick, isSelected }) {
   const username = localStorage.getItem("username");
   const resumeUrl = localStorage.getItem("resume");
   const payload = { ...job, username, resumeUrl };
+
   const [applied, setApplied] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  async function sendRequest() {
-    if (applied || loading) return; // prevent multiple submits
+  async function sendRequest(e) {
+    e.stopPropagation(); // Prevent triggering parent's onClick
+    if (applied || loading) return;
     setLoading(true);
     try {
       const res = await fetch("http://localhost:8000/api/users/apply", {
@@ -39,51 +41,90 @@ function JobCard({ job }) {
 
   return (
     <div
-      className="max-w-2xl w-full mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between
-        bg-gray-900/70 border border-gray-700 rounded-xl shadow-md backdrop-blur-md p-6 my-5
-        hover:shadow-lg hover:shadow-cyan-700/50 transition-shadow duration-300 group"
+      onClick={onClick}
+      className={`flex items-center justify-between w-full py-5 px-4 transition cursor-pointer rounded-md
+        ${isSelected
+          ? "bg-gray-800 border border-cyan-400 shadow-lg"
+          : "hover:bg-gray-800/40"
+        }
+      `}
+      style={{ minHeight: "80px" }}
     >
-      {/* Left: Job Details */}
-      <div className="flex flex-col flex-1 space-y-2 mb-4 sm:mb-0">
-        <h2 className="text-2xl font-semibold text-cyan-300 truncate select-none">
-          {job.title}
-        </h2>
-        <div className="flex items-center gap-2 text-gray-400">
-          <FaBuilding className="text-cyan-500" />
-          <span className="font-medium">{job.company}</span>
-        </div>
-        <div className="flex gap-3 mt-2 flex-wrap">
-          {/* Salary */}
-          <span className="flex items-center gap-2 bg-gray-800 text-gray-300 rounded-md px-3 py-1 text-sm font-medium border border-gray-700">
-            <FaMoneyBill className="text-green-400" />
-            {job.sallary}
-          </span>
-          {/* Job type */}
+      {/* Left Section */}
+      <div className="flex flex-col flex-1 min-w-0 pr-4">
+        {/* Job Title and Employment Type */}
+        <div className="flex items-center gap-3">
+          <h3 className="truncate text-cyan-400 font-semibold text-lg">{job.title}</h3>
           <span
-            className={`flex items-center gap-2 px-4 py-1 rounded-md text-xs font-semibold border ${job.job_type === "Full-time"
-                ? "border-green-600 text-green-400 bg-green-900/20"
-                : "border-yellow-600 text-yellow-400 bg-yellow-900/20"
-              }`}
+            className={`text-xs font-semibold uppercase px-2 py-0.5 rounded-full border
+              ${job.type === "Full-time"
+                ? "bg-green-900 border-green-500 text-green-400"
+                : job.type === "Part-time"
+                  ? "bg-yellow-900 border-yellow-500 text-yellow-400"
+                  : "bg-gray-700 border-gray-600 text-gray-400"
+              }
+            `}
           >
-            <FaSuitcase />
-            {job.job_type}
+            {job.type || (job.employmentType || "N/A")}
           </span>
         </div>
+
+        {/* Company, Department and Location */}
+        <div className="flex flex-wrap text-gray-400 text-xs mt-1 gap-x-4 gap-y-1">
+          <span className="flex items-center gap-1 truncate max-w-[45%]">
+            <FaBuilding className="text-cyan-500" />
+            <span title={job.companyName}>{job.companyName || "Unknown Company"}</span>
+          </span>
+
+          <span className="flex items-center gap-1 truncate max-w-[35%]">
+            <FaSuitcase />
+            <span title={job.department || "Department not specified"}>
+              {job.department || "N/A"}
+            </span>
+          </span>
+
+          <span className="flex items-center gap-1 truncate max-w-[35%]">
+            <FaMoneyBill className="text-green-400" />
+            <span>
+              {job.salaryRangeMinYearly && job.salaryRangeMaxYearly
+                ? `$${job.salaryRangeMinYearly.toLocaleString()} - $${job.salaryRangeMaxYearly.toLocaleString()}`
+                : "Salary not disclosed"}
+            </span>
+          </span>
+        </div>
+
+        {/* Location & Rating */}
+        <div className="mt-1 flex items-center gap-4 text-gray-500 text-xs">
+          <span className="truncate max-w-[70%]">{job.locationAddress || "Location not specified"}</span>
+          {job.rating != null && (
+            <span className="flex items-center gap-1 text-yellow-400 font-semibold">
+              <FaStar /> {job.rating.toFixed(1)}
+            </span>
+          )}
+        </div>
+
+        {/* Short summary / description */}
+        {job.descriptionBreakdown?.oneSentenceJobSummary && (
+          <p className="mt-2 text-gray-300 text-sm line-clamp-2" title={job.descriptionBreakdown.oneSentenceJobSummary}>
+            {job.descriptionBreakdown.oneSentenceJobSummary}
+          </p>
+        )}
       </div>
 
-      {/* Right: Apply Button */}
+      {/* Right Section: Apply Button */}
       <button
         onClick={sendRequest}
         disabled={applied || loading}
-        className={`w-full sm:w-auto ml-auto rounded-lg px-6 py-3 text-white font-semibold shadow
-          bg-blue-800 border border-blue-700 transition-transform duration-200
-          focus:outline-none focus:ring-2 focus:ring-blue-400
+        className={`ml-3 px-5 py-2 rounded-md font-semibold text-sm shadow-md transition-colors
+          focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-cyan-400
           ${applied
-            ? "opacity-60 cursor-not-allowed bg-gray-700 border-gray-600"
-            : "hover:scale-105 hover:bg-blue-700"
-          }`}
+            ? "bg-gray-600 text-gray-400 cursor-not-allowed border border-gray-600"
+            : "bg-cyan-600 text-white hover:bg-cyan-700 border border-cyan-700"
+          }
+        `}
+        style={{ minWidth: "110px" }}
       >
-        {applied ? "Applied" : loading ? "Applying..." : "Apply Now"}
+        {applied ? "Applied" : loading ? "Applying..." : "Apply"}
       </button>
     </div>
   );
