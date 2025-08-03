@@ -55,7 +55,7 @@ function Jobs() {
 
       {/* Right Panel (Selected Job Detail) */}
       <div
-        className="flex-1 p-6 overflow-y-auto bg-gray-800  text-white"
+        className="flex-1 p-2 overflow-y-auto bg-gray-800  text-white"
         style={{ height: "100vh" }}
       >
         {selectedJob ? (
