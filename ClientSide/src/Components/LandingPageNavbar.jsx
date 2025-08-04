@@ -24,7 +24,7 @@ function LandingPageNav() {
             {to ? (
               <NavLink
                 to={to}
-                end
+                end={to === "/"} // only exact match for Home
                 className={({ isActive }) =>
                   `text-gray-300 hover:text-cyan-400 transition duration-300 ${isActive ? "text-cyan-400 font-bold" : ""
                   }`

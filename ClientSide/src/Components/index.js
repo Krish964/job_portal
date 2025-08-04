@@ -11,8 +11,8 @@ import Jobs from "./jobsData";
 import ForgetPassword from "./ForgetPassword";
 import AdminPage from "./adminPage";
 import Logout from "./Logout";
-
-export { LandingPageNav, Footer, LoginPage, SignupPage, LandingPage, About, Contact, MainPageNavbar, MainPage, Jobs, ForgetPassword , AdminPage , Logout };
+import ResetPassword from "./ResetPassword";
+export { LandingPageNav, Footer, LoginPage, SignupPage, LandingPage, About, Contact, MainPageNavbar, MainPage, Jobs, ForgetPassword , AdminPage , Logout , ResetPassword };
 
 
 
