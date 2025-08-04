@@ -1,6 +1,6 @@
 import { User } from "../Models/User.models.js";
 import { uploadFileonCloudinary } from "../Utils/Cloudniary.js";
-
+import { sendMail } from "./mail.controllers.js";
 export const registerUser = async (req, res) => {
   try {
     // getting userdetail
@@ -42,6 +42,14 @@ export const registerUser = async (req, res) => {
       password, // 👉 NOTE: you should hash this in real-world apps
       resume: resume?.url || "no url found"
     });
+    
+    // Send mail to the new registerd user
+    await sendMail(
+      email,
+      "Welcome to JobPortal! Registration Successful",
+      `Hello ${username},\n\nThank you for registering on JobPortal. Your account has been created successfully. If you have any questions, feel free to contact us.\n\nBest regards,\nJobPortal Team`
+    );
+    
 
     // 6. Return created user (excluding password, refreshToken)
     const createdUser = await User.findById(user._id).select("-password -refreshToken");

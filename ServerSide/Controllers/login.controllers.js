@@ -10,7 +10,7 @@ export const loginUser = async (req, res) => {
 
   // Hardcoded admin credentials
   const ADMIN_EMAIL = "krishkumarsingh192@gmail.com";
-  const ADMIN_PASSWORD = "radhe";
+  const ADMIN_PASSWORD = "shyamaju";
 
   try {
     console.log("Attempting login for email:", email);

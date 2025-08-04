@@ -11,7 +11,7 @@ export const handleJobData = async (req, res) => {
     resume,
   } = req.body;
 
-  console.log("Received application data:", req.body);
+
 
   // Nested fields extraction:
   const companyName = owner?.companyName || "";
