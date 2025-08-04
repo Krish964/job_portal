@@ -1,24 +1,21 @@
-# Use official Node LTS image
+# Use official Node.js LTS Alpine image
 FROM node:18-alpine
 
-# Set working directory inside the container
+# Set working directory inside container
 WORKDIR /app
 
-# Copy package.json and package-lock.json (or yarn.lock) first for better caching
+# Copy package.json and package-lock.json for better layer caching
 COPY package*.json ./
 
-# Install dependencies
+# Install only production dependencies
 RUN npm install --production
 
-# Copy the rest of the source code
+# Copy the rest of the application source code
 COPY . .
 
-# Build step (optional - if you have build scripts, otherwise remove)
-# RUN npm run build
-
-# Expose the port your app listens on (use environment variable fallback)
+# Expose the port your app will run on, default to 8000, override with env if needed
 ENV PORT=8000
 EXPOSE 8000
 
-# Start the server
+# Start your node server
 CMD ["npm", "start"]
