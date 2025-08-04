@@ -1,20 +1,18 @@
 import React from "react";
 import { MainPageNavbar, Jobs, Footer } from "./index";
 import { motion } from "framer-motion";
-
-
 // Use your background image path here (public/assets recommended)
-import backgroundImage from "/src/assets/backgroundImage3.jpg"; 
-
+import backgroundImage from "/src/assets/backgroundImage3.jpg";
 
 function MainPage() {
+
   return (
     <>
       <MainPageNavbar />
 
       <main className="bg-gradient-to-br from-black via-gray-900 to-cyan-900 text-cyan-200 pb-20 min-h-screen">
 
-        {/* HERO SECTION (fully centered, no side image, background applied) */}
+        {/* HERO SECTION */}
         <section
           className="relative flex items-center justify-center min-h-[70vh] w-full"
           style={{
@@ -30,8 +28,8 @@ function MainPage() {
           <div className="relative z-10 flex flex-col items-center justify-center text-center w-full max-w-4xl px-6 py-20">
             <motion.h1
               className="text-5xl md:text-6xl font-extrabold tracking-wide bg-gradient-to-r from-cyan-400 via-teal-300 to-purple-400 bg-clip-text text-transparent drop-shadow-lg select-none mb-10 text-center"
-              initial={{ opacity: 0, y: 40 , x : 40 }}
-              animate={{ opacity: 1, y: 0 , x :0 }}
+              initial={{ opacity: 0, y: 40, x: 40 }}
+              animate={{ opacity: 1, y: 0, x: 0 }}
               transition={{ duration: 1.6, ease: "easeOut" }}
             >
               Let’s Turn Ambitions Into Opportunities
@@ -91,17 +89,10 @@ function MainPage() {
           </h2>
         </section>
 
-        {/* Jobs List (your existing Jobs component, keep as is) */}
-        <Jobs/>
+        {/* Jobs List */}
+        <Jobs />
 
-        {/* View More Button */}
-        <div className="flex justify-center">
-          <button className="mt-12 mb-6 bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-extrabold px-8 py-4 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-300">
-            View More Jobs
-          </button>
-        </div>
       </main>
-
       <Footer />
     </>
   );
