@@ -9,7 +9,7 @@ function AdminPage() {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    fetch("http://localhost:8000/api/users/applyJobs", {
+    fetch("https://jobportal-production-327b.up.railway.app/api/users/applyJobs", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

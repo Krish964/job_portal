@@ -3,11 +3,35 @@ import emailImg from "/src/assets/Email.png";
 
 function ForgetPassword() {
   const [email, setEmail] = useState("");
+  const [message, setMessage] = useState(""); // success/failure message
+  const [error, setError] = useState("");
+  const [isSending, setIsSending] = useState(false); // to track button state
 
   const handleSendOtp = (e) => {
     e.preventDefault();
-    // OTP logic yahan aayega
-    alert(`OTP sent to ${email}`);
+    setMessage("");
+    setError("");
+    setIsSending(true);
+
+    fetch("https://jobportal-production-327b.up.railway.app/api/users/forgetPassword", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (res.ok) {
+          setMessage(`Mail has been sent to ${email}`);
+        } else {
+          setError(data.error || "Something went wrong");
+        }
+        setIsSending(false);
+      })
+      .catch((err) => {
+        setError("Failed to send request. Please try again.");
+        setIsSending(false);
+        console.error(err);
+      });
   };
 
   return (
@@ -30,6 +54,7 @@ function ForgetPassword() {
           <p className="text-cyan-300 mb-10 text-lg">
             Enter your registered email address to receive an OTP.
           </p>
+
           <form onSubmit={handleSendOtp} className="flex flex-col gap-6">
             <label
               className="text-cyan-300 font-semibold text-lg"
@@ -45,15 +70,26 @@ function ForgetPassword() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               className="rounded-xl border border-cyan-600 bg-black/70 px-6 py-4 text-cyan-200 placeholder-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 text-lg transition"
+              disabled={isSending}
             />
 
             <button
               type="submit"
-              className="mt-6 w-full bg-gradient-to-r from-cyan-600 to-purple-700 hover:from-purple-700 hover:to-cyan-600 text-white font-bold py-4 rounded-2xl text-xl shadow-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-cyan-400"
+              disabled={isSending}
+              className={`mt-6 w-full text-white font-bold py-4 rounded-2xl text-xl shadow-lg transition-transform transform focus:outline-none focus:ring-4 focus:ring-cyan-400 ${isSending
+                  ? "bg-cyan-400 cursor-not-allowed"
+                  : "bg-gradient-to-r from-cyan-600 to-purple-700 hover:from-purple-700 hover:to-cyan-600 hover:scale-105"
+                }`}
             >
-              Send OTP
+              {isSending ? "Sending..." : "Send OTP"}
             </button>
           </form>
+
+          {/* Success and error message display */}
+          {message && (
+            <p className="mt-4 text-green-400 font-semibold">{message}</p>
+          )}
+          {error && <p className="mt-4 text-red-500 font-semibold">{error}</p>}
         </div>
       </div>
     </div>

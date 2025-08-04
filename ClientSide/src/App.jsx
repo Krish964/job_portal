@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import { SignupPage, LoginPage, LandingPage, About, Contact, MainPage, ForgetPassword , AdminPage } from './Components/index'
+import { SignupPage, LoginPage, LandingPage, About, Contact, MainPage, ForgetPassword, AdminPage, ResetPassword } from './Components/index'
 import { Route, Routes } from 'react-router-dom'
 import { ToastContainer } from "react-toastify";
 function App() {
@@ -17,6 +17,7 @@ function App() {
         <Route path='/mainpage' element={<MainPage/>}></Route>
         <Route path='/forgot-password' element={<ForgetPassword/>}></Route>
         <Route path='/adminPanel' element={<AdminPage/>}></Route>
+        <Route path='/ResetPassword' element={<ResetPassword/>}></Route>
       </Routes>
 
       <ToastContainer />
