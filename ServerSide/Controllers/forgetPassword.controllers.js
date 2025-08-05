@@ -19,7 +19,7 @@ export const handlePasswordReset = async (req, res) => {
       { expiresIn: "15m" }
     );
 
-    const resetUrl = `http://localhost:5173/ResetPassword?token=${resetToken}`;
+    const resetUrl = `https://jobportal-frontend-a77d5.web.app/ResetPassword?token=${resetToken}`;
 
     // Compose message with reset link
     const message = `
