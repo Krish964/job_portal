@@ -24,6 +24,10 @@ export const registerUser = async (req, res) => {
     if (existingEmail) {
       return res.status(400).json({ error: "Email already exists. Please use another." });
     }
+    const existingNumber = await User.findOne({ number });
+    if (existingNumber) {
+      return res.status(400).json({ error: "Number already exists. Please use another." });
+    }
 
     // 3. Check if resume uploaded
     const resumeLocalPath = req.file?.path;

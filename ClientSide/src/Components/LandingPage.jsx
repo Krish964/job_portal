@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileContract, faLaptop, faRegistered, faShieldAlt, faBolt, faUsers, faLightbulb } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "motion/react"
-const backgroundImageUrl = "/src/assets/backgroundImage2.jpg"; // Use public path to avoid import errors
+import bgImage from '/src/assets/backgroundImage2.jpg'; // Use public path to avoid import errors
 
 function LandingPage() {
   return (
@@ -15,7 +15,7 @@ function LandingPage() {
       <section
         className="relative min-h-[78vh] flex items-center justify-center"
         style={{
-          backgroundImage: `url(${backgroundImageUrl})`,
+          backgroundImage: `url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
