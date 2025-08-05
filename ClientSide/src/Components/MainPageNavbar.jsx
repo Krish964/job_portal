@@ -19,7 +19,7 @@ function MainPageNavbar() {
   useEffect(() => {
     const storedUser = localStorage.getItem("username");
     if (storedUser) {
-      setUsername(storedUser === "admin" ? "Admin User" : storedUser);
+      setUsername(storedUser === "admin" ? storedUser : "Admin-user");
     }
   }, []);
 
