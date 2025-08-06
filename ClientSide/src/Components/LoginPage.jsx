@@ -25,7 +25,7 @@ export default function LoginPage() {
     const toastId = toast.loading("Logging in...");
 
     try {
-      const response = await fetch(`https://jobportal-production-327b.up.railway.app/api/users/login`, {
+      const response = await fetch(`http://localhost:8000/api/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -52,7 +52,11 @@ export default function LoginPage() {
       setTimeout(() => {
         if (data.user.isAdmin) {
           navigate("/adminPanel");   // Admin page redirect
-        } else {
+        }
+        else if (data.user.role === "hr") {
+          navigate("/HrPage")
+        }
+        else {
           navigate("/mainpage"); // Normal user redirect
         }
       }, 750);

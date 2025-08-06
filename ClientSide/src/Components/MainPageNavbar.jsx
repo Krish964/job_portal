@@ -9,23 +9,31 @@ import {
   faBars,
   faTimes,
   faUserCircle,
+  faBell,             // notification icon
 } from "@fortawesome/free-solid-svg-icons";
-import {Logout} from "./index.js";
+import { Logout } from "./index.js";
 
 function MainPageNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [username, setUsername] = useState("User");
- const [modal , showModal]  = useState(false)
+  const [modal, showModal] = useState(false);
+  const [notifModal, showNotifModal] = useState(false); // notification modal toggle
+
   useEffect(() => {
     const storedUser = localStorage.getItem("username");
     if (storedUser) {
-      setUsername(storedUser === "admin" ? storedUser : "Admin-user");
+      setUsername(storedUser === "admin" ? storedUser : storedUser);
     }
   }, []);
 
-  // Toggle modal on icon click
   const toggleModal = () => {
     showModal((prev) => !prev);
+    showNotifModal(false);  // close notif modal if user modal is opened
+  };
+
+  const toggleNotifModal = () => {
+    showNotifModal((prev) => !prev);
+    showModal(false);       // close user modal if notif modal is opened
   };
 
   const menuItems = [
@@ -68,27 +76,61 @@ function MainPageNavbar() {
           ))}
         </div>
 
-        {/* User Info */}
-        <div className="hidden md:flex items-center gap-5 cursor-pointer select-none">
-          <div className="relative group transition-transform duration-300 hover:scale-110">
+        {/* User Info + Notification */}
+        <div className="hidden md:flex items-center gap-8 cursor-pointer select-none">
+          {/* Notification Icon */}
+          <div
+            className="relative group transition-transform duration-300 hover:scale-110 hover:text-cyan-300"
+            onClick={toggleNotifModal}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") toggleNotifModal();
+            }}
+            role="button"
+            aria-label="Notifications"
+          >
+            <FontAwesomeIcon
+              icon={faBell}
+              className="text-2xl text-gray-300 group-hover:text-cyan-400 drop-shadow-md"
+            />
+            {/* Notification badge for new notifications */}
+            <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-red-600 border-2 border-black animate-pulse"></span>
+            {/* Notification modal content */}
+            {notifModal && (
+              <div className="absolute right-0 mt-2 w-64 bg-gray-900 border border-cyan-600 rounded shadow-lg p-4 z-50">
+                <p className="text-cyan-400 font-semibold mb-2">Notifications</p>
+                <p className="text-gray-300 text-sm">
+                  You have 1 new notification: Your request has been forwarded.
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* User Icon + Modal */}
+
+         <div className = "flex justify-center items-center gap-3">
+          <div
+            className="relative group transition-transform duration-300 hover:scale-110"
+            onClick={toggleModal}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") toggleModal();
+            }}
+            role="button"
+            aria-label="User menu"
+          >
             <FontAwesomeIcon
               icon={faUserCircle}
               className="text-4xl text-cyan-400 drop-shadow-xl group-hover:drop-shadow-cyan-600 transition duration-300"
-              onClick={toggleModal}
-              tabIndex={0} 
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") toggleModal();
-              }}
-              role="button"
             />
-           
-            {modal && <Logout/>}
-
+            {modal && <Logout />}
             <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-500 border-2 border-black animate-pulse"></span>
           </div>
+
           <span className="text-white font-semibold cursor-default transition-colors duration-300 hover:text-cyan-300 select-text md:select-none text-lg font-mono">
             {username}
           </span>
+          </div>
         </div>
 
         {/* Mobile Menu Button */}

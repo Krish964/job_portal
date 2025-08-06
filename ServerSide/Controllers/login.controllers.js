@@ -8,23 +8,26 @@ export const loginUser = async (req, res) => {
     return res.status(400).json({ error: "Email and password are required" });
   }
 
-  // Hardcoded admin credentials
+  // Hardcoded admin and HR credentials (example)
   const ADMIN_EMAIL = "krishkumarsingh192@gmail.com";
   const ADMIN_PASSWORD = "shyamaju";
+
+  const HR_EMAIL = "Hr123@gmail.com";       // ideally alag email rakho
+  const HR_PASSWORD = "hr1234";
 
   try {
     console.log("Attempting login for email:", email);
 
-    // Check hardcoded admin first
+    // 1. Check admin:
     if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
       const adminPayload = {
-        _id: "admin-id-unique", // unique admin id
+        _id: "admin-id-unique",
         username: "Admin-Page",
         email: ADMIN_EMAIL,
         isAdmin: true,
+        role: "admin",
       };
 
-      // Manually generate tokens for admin
       const accessToken = jwt.sign(adminPayload, process.env.ACCESS_SECRET_TOKEN, {
         expiresIn: process.env.ACCESS_TOKEN_EXPIERY,
       });
@@ -40,7 +43,32 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    // Normal user login flow
+    // 2. Check HR:
+    if (email === HR_EMAIL && password === HR_PASSWORD) {
+      const hrPayload = {
+        _id: "hr-id-unique",
+        username: "HR-Page",
+        email: HR_EMAIL,
+        isAdmin: false,         // HR ko admin nahi banana chahiye agar admin alag role hai
+        role: "hr",
+      };
+
+      const accessToken = jwt.sign(hrPayload, process.env.ACCESS_SECRET_TOKEN, {
+        expiresIn: process.env.ACCESS_TOKEN_EXPIERY,
+      });
+      const refreshToken = jwt.sign(hrPayload, process.env.REFRESH_SECRET_TOKEN, {
+        expiresIn: process.env.REFRESH_TOKEN_EXPIERY,
+      });
+
+      return res.status(200).json({
+        message: "HR login successful",
+        user: hrPayload,
+        accessToken,
+        refreshToken,
+      });
+    }
+
+    // 3. Normal user login flow
     const user = await User.findOne({ email });
     if (!user) {
       console.log("User not found for email:", email);
@@ -67,6 +95,7 @@ export const loginUser = async (req, res) => {
         username: user.username,
         email: user.email,
         isAdmin: false,
+        role: "user",
       },
       accessToken,
       refreshToken,

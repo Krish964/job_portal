@@ -25,7 +25,7 @@ export default function SignupPage() {
     const toastId = toast.loading("Creating your account...");
 
     try {
-      const res = await fetch(`https://jobportal-production-327b.up.railway.app/api/users/register`, {
+      const res = await fetch(`http://localhost:8000/api/users/register`, {
         method: "POST",
         body: formData,
       });

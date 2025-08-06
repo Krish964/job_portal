@@ -22,7 +22,6 @@ function Logout() {
     { label: "Profile", onClick: () => navigate("/profile") },
     { label: "Account", onClick: () => navigate("/account") },
     { label: "Security", onClick: () => navigate("/security") },
-    { label: "Notification", onClick: () => navigate("/notifications") },
     { label: "Logout", onClick: handleLogout, danger: true },
   ];
 

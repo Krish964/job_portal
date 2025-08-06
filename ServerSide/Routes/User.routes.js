@@ -17,6 +17,7 @@ router.route("/register").post(
 router.route("/login").post(loginUser)
 router.route("/apply").post(handleJobData)
 router.route("/applyJobs").get(authenticateUser, getAllApplications)
+router.route("/HrPage").get(authenticateUser, getAllApplications)
 router.route("/forgetPassword").post(handlePasswordReset)
 router.route("/reset-password").post(resetPasswordHandler)
 

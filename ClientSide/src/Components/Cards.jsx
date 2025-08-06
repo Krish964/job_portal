@@ -16,7 +16,7 @@ function JobCard({ job, onClick, isSelected }) {
     if (applied || loading) return;
     setLoading(true);
     try {
-      const res = await fetch("https://jobportal-production-327b.up.railway.app/api/users/apply", {
+      const res = await fetch("http://localhost:8000/api/users/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
