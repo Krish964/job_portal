@@ -7,6 +7,7 @@ import { authenticateUser } from "../Middlewares/Auth.middleware.js";
 import { getAllApplications } from "../Controllers/admin.controllers.js"
 import { handlePasswordReset } from "../Controllers/forgetPassword.controllers.js";
 import { resetPasswordHandler } from "../Controllers/newPassword.controllers.js";
+import { notificationHandler } from "../Controllers/Notification.controllers.js";
 const router = Router()
 
 router.route("/register").post(
@@ -20,7 +21,6 @@ router.route("/applyJobs").get(authenticateUser, getAllApplications)
 router.route("/HrPage").get(authenticateUser, getAllApplications)
 router.route("/forgetPassword").post(handlePasswordReset)
 router.route("/reset-password").post(resetPasswordHandler)
-
-// router.route("/applyJobs").get(authenticateUser, applyJob);
+router.route("/notification").post(notificationHandler)
 
 export default router
