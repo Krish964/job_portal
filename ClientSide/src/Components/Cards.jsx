@@ -1,19 +1,21 @@
 import React, { useState } from "react";
-import { FaBuilding, FaMoneyBill, FaSuitcase, FaStar } from "react-icons/fa";
+import { FaBuilding, FaMoneyBill, FaSuitcase, FaStar, FaBookmark } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 function JobCard({ job, onClick, isSelected }) {
   const username = localStorage.getItem("username");
   const resumeUrl = localStorage.getItem("resume");
-  const email = localStorage.getItem("email")
-  const payload = { ...job, username, resumeUrl , email};
+  const email = localStorage.getItem("email");
+  const payload = { ...job, username, resumeUrl, email };
 
   const [applied, setApplied] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   async function sendRequest(e) {
-    e.stopPropagation(); // Prevent triggering parent's onClick
+    e.stopPropagation();
     if (applied || loading) return;
+
     setLoading(true);
     try {
       const res = await fetch("http://localhost:8000/api/users/apply", {
@@ -27,110 +29,148 @@ function JobCard({ job, onClick, isSelected }) {
       toast.success("Your application has been submitted! 🎉", {
         position: "top-right",
         autoClose: 3000,
-        theme: "dark",
+        theme: "light",
       });
     } catch (err) {
       toast.error("Error occurred: " + err.message, {
         position: "top-right",
         autoClose: 4000,
-        theme: "dark",
+        theme: "light",
       });
     } finally {
       setLoading(false);
     }
   }
 
+  function toggleSave(e) {
+    e.stopPropagation();
+    setSaved(!saved);
+    toast.info(saved ? "Removed from saved jobs" : "Job saved", {
+      position: "top-right",
+      autoClose: 1500,
+      theme: "light",
+    });
+  }
+
+  const getJobTypeBadgeClass = (type) => {
+    switch (type?.toLowerCase()) {
+      case "full-time":
+        return "bg-green-100 border-green-400 text-green-700";
+      case "part-time":
+        return "bg-yellow-100 border-yellow-400 text-yellow-700";
+      case "hybrid":
+      case "hybrid full-time":
+      case "hybrid/full-time":
+      case "hybrid full time":
+        return "bg-orange-100 border-orange-400 text-orange-700";
+      default:
+        return "bg-gray-200 border-gray-400 text-gray-600";
+    }
+  };
+
   return (
     <div
       onClick={onClick}
-      className={`flex items-center justify-between w-full py-5 px-4 transition cursor-pointer rounded-md
-        ${isSelected
-          ? "bg-gray-800 border border-cyan-400 shadow-lg"
-          : "hover:bg-gray-800/40"
-        }
+      className={`bg-white shadow border border-gray-300 flex flex-col justify-between p-5 transition cursor-pointer rounded-xl
+        ${isSelected ? "border-black shadow-lg scale-105" : "hover:border-gray-600 hover:scale-[1.03]"}
       `}
-      style={{ minHeight: "80px" }}
+      style={{
+        minHeight: "170px",
+        maxWidth: "600px",
+        width: "100%",
+        margin: "12px auto",
+        boxSizing: "border-box"
+      }}
     >
-      {/* Left Section */}
-      <div className="flex flex-col flex-1 min-w-0 pr-4">
-        {/* Job Title and Employment Type */}
-        <div className="flex items-center gap-3">
-          <h3 className="truncate text-cyan-400 font-semibold text-lg">{job.title}</h3>
-          <span
-            className={`text-xs font-semibold uppercase px-2 py-0.5 rounded-full border
-              ${job.type === "Full-time"
-                ? "bg-green-900 border-green-500 text-green-400"
-                : job.type === "Part-time"
-                  ? "bg-yellow-900 border-yellow-500 text-yellow-400"
-                  : "bg-gray-700 border-gray-600 text-gray-400"
-              }
-            `}
-          >
-            {job.type || (job.employmentType || "N/A")}
-          </span>
-        </div>
-
-        {/* Company, Department and Location */}
-        <div className="flex flex-wrap text-gray-400 text-xs mt-1 gap-x-4 gap-y-1">
-          <span className="flex items-center gap-1 truncate max-w-[45%]">
-            <FaBuilding className="text-cyan-500" />
-            <span title={job.owner.companyName}>{job.owner.companyName || "Unknown Company"}</span>
-          </span>
-
-          <span className="flex items-center gap-1 truncate max-w-[35%]">
-            <FaSuitcase />
-            <span title={job.department || "Department not specified"}>
-              {job.department || "N/A"}
-            </span>
-          </span>
-
-          <span className="flex items-center gap-1 truncate max-w-[35%]">
-            <FaMoneyBill className="text-green-400" />
-            <span>
-              {job.descriptionBreakdown?.salaryRangeMinYearly && job.descriptionBreakdown?.salaryRangeMaxYearly ? (
-                <span>
-                  ${job.descriptionBreakdown.salaryRangeMinYearly.toLocaleString()} - ${job.descriptionBreakdown.salaryRangeMaxYearly.toLocaleString()}
-                </span>
-              ) : (
-                <span>Salary not disclosed</span>
-              )}
-            </span>
-          </span>
-        </div>
-
-        {/* Location & Rating */}
-        <div className="mt-1 flex items-center gap-4 text-gray-500 text-xs">
-          <span className="truncate max-w-[70%]">{job.locationAddress || "Location not specified"}</span>
-          {job.rating != null && (
-            <span className="flex items-center gap-1 text-yellow-400 font-semibold">
-              <FaStar /> {job.rating.toFixed(1)}
-            </span>
-          )}
-        </div>
-
-        {/* Short summary / description */}
-        {job.descriptionBreakdown?.oneSentenceJobSummary && (
-          <p className="mt-2 text-gray-300 text-sm line-clamp-2" title={job.descriptionBreakdown.oneSentenceJobSummary}>
-            {job.descriptionBreakdown.oneSentenceJobSummary}
-          </p>  
-        )}
+      {/* Card Top: Title + Badge */}
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="text-gray-900 font-bold text-lg truncate">{job.title}</h3>
+        <span
+          className={`text-xs font-semibold uppercase px-3 py-1 rounded border whitespace-nowrap ${getJobTypeBadgeClass(job.type)}`}
+        >
+          {job.type || job.employmentType || "N/A"}
+        </span>
       </div>
 
-      {/* Right Section: Apply Button */}
-      <button
-        onClick={sendRequest}
-        disabled={applied || loading}
-        className={`ml-3 px-5 py-2 rounded-md font-semibold text-sm shadow-md transition-colors
-          focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-cyan-400
-          ${applied
-            ? "bg-gray-600 text-gray-400 cursor-not-allowed border border-gray-600"
-            : "bg-cyan-600 text-white hover:bg-cyan-700 border border-cyan-700"
-          }
-        `}
-        style={{ minWidth: "110px" }}
-      >
-        {applied ? "Applied" : loading ? "Applying..." : "Apply"}
-      </button>
+      {/* Job Info Block */}
+      <div className="flex flex-wrap text-gray-700 text-sm gap-x-6 gap-y-2 mb-3">
+        <span className="flex items-center gap-1 truncate">
+          <FaBuilding className="text-gray-500" />
+          <span title={job.owner?.companyName || "Unknown Company"}>
+            {job.owner?.companyName || "Unknown Company"}
+          </span>
+        </span>
+        <span className="flex items-center gap-1 truncate">
+          <FaSuitcase />
+          <span title={job.department || "Department not specified"}>
+            {job.department || "N/A"}
+          </span>
+        </span>
+        <span className="flex items-center gap-1 truncate">
+          <FaMoneyBill className="text-green-500" />
+          <span>
+            {job.descriptionBreakdown?.salaryRangeMinYearly &&
+              job.descriptionBreakdown?.salaryRangeMaxYearly ? (
+              <span className="text-gray-900 font-medium">
+                ${job.descriptionBreakdown.salaryRangeMinYearly.toLocaleString()} - ${job.descriptionBreakdown.salaryRangeMaxYearly.toLocaleString()}
+              </span>
+            ) : (
+              <span className="text-gray-500 italic">Salary not disclosed</span>
+            )}
+          </span>
+        </span>
+        {job.rating != null && (
+          <span className="flex items-center gap-1 text-yellow-500 font-semibold">
+            <FaStar /> {job.rating.toFixed(1)}
+          </span>
+        )}
+        <span className="truncate text-gray-600" title={job.locationAddress || "Location not specified"}>
+          {job.locationAddress || "Location not specified"}
+        </span>
+      </div>
+
+      {/* Short Description */}
+      {job.descriptionBreakdown?.oneSentenceJobSummary && (
+        <p
+          className="text-gray-700 text-sm mt-2 mb-4 line-clamp-2"
+          title={job.descriptionBreakdown.oneSentenceJobSummary}
+        >
+          {job.descriptionBreakdown.oneSentenceJobSummary}
+        </p>
+      )}
+
+      {/* Card Footer: Apply Button + Save Icon */}
+      <div className="flex items-center justify-between pt-2">
+        <button
+          onClick={sendRequest}
+          disabled={applied || loading}
+          className={`px-6 py-2 rounded font-bold text-sm border transition-colors focus:outline-none ${applied
+              ? "bg-gray-300 text-gray-600 border-gray-300 cursor-not-allowed"
+              : "bg-green-800 text-white border-black hover:bg-white hover:text-black"
+            }`}
+          style={{ minWidth: 110 }}
+        >
+          {applied ? "Applied" : loading ? "Applying..." : "Apply"}
+        </button>
+        {/* Save/Bookmark icon */}
+        <span
+          onClick={toggleSave}
+          className="ml-3 cursor-pointer flex items-center justify-center w-9 h-9 rounded-full border border-gray-300 transition-colors"
+          style={{
+            backgroundColor: saved ? "#22c55e" : "#000", // green if saved, else black
+            transition: "background-color 0.3s",
+          }}
+          title={saved ? "Remove from saved jobs" : "Save job"}
+          aria-label={saved ? "Remove from saved jobs" : "Save job"}
+        >
+          <FaBookmark
+            size={20}
+            color="#fff"
+            style={{ transition: "color 0.3s" }}
+          />
+        </span>
+
+      </div>
     </div>
   );
 }

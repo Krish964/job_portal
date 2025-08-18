@@ -35,29 +35,29 @@ function ForgetPassword() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-cyan-900 px-4">
-      <div className="bg-black/80 backdrop-blur-lg rounded-3xl flex max-w-5xl w-full overflow-hidden shadow-2xl border border-cyan-700">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-blue-50 to-blue-100 px-4">
+      <div className="bg-white rounded-3xl flex max-w-5xl w-full overflow-hidden shadow-lg border border-blue-300">
         {/* Left: Illustration */}
-        <div className="hidden md:flex flex-1 items-center justify-center bg-gradient-to-b from-cyan-700 to-indigo-900 p-12">
+        <div className="hidden md:flex flex-1 items-center justify-center bg-gradient-to-b from-blue-400 to-indigo-600 p-12">
           <img
             src={emailImg}
             alt="Security Illustration"
-            className="w-80 h-80 object-contain drop-shadow-lg"
+            className="w-80 h-80 object-contain drop-shadow-xl rounded-2xl"
           />
         </div>
 
         {/* Right: Form */}
         <div className="flex-1 p-14 flex flex-col justify-center">
-          <h2 className="text-5xl font-extrabold text-cyan-400 mb-6 select-none">
+          <h2 className="text-5xl font-extrabold text-indigo-700 mb-6 select-none">
             Forgot Password?
           </h2>
-          <p className="text-cyan-300 mb-10 text-lg">
+          <p className="mb-10 text-lg text-indigo-600 max-w-md">
             Enter your registered email address to receive an OTP.
           </p>
 
           <form onSubmit={handleSendOtp} className="flex flex-col gap-6">
             <label
-              className="text-cyan-300 font-semibold text-lg"
+              className="text-indigo-600 font-semibold text-lg"
               htmlFor="email"
             >
               Email Address
@@ -69,27 +69,29 @@ function ForgetPassword() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="rounded-xl border border-cyan-600 bg-black/70 px-6 py-4 text-cyan-200 placeholder-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 text-lg transition"
+              className="rounded-xl border border-indigo-400 bg-white px-6 py-4 text-indigo-900 placeholder-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg transition"
               disabled={isSending}
             />
 
             <button
               type="submit"
               disabled={isSending}
-              className={`mt-6 w-full text-white font-bold py-4 rounded-2xl text-xl shadow-lg transition-transform transform focus:outline-none focus:ring-4 focus:ring-cyan-400 ${isSending
-                  ? "bg-cyan-400 cursor-not-allowed"
-                  : "bg-gradient-to-r from-cyan-600 to-purple-700 hover:from-purple-700 hover:to-cyan-600 hover:scale-105"
+              className={`mt-6 w-full text-white font-bold py-4 rounded-2xl text-xl shadow-lg transition-transform transform focus:outline-none focus:ring-4 focus:ring-indigo-400 ${isSending
+                  ? "bg-indigo-300 cursor-not-allowed"
+                  : "bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-purple-700 hover:to-indigo-600 hover:scale-105"
                 }`}
             >
               {isSending ? "Sending..." : "Send OTP"}
             </button>
           </form>
 
-          {/* Success and error message display */}
+          {/* Success and error messages */}
           {message && (
-            <p className="mt-4 text-green-400 font-semibold">{message}</p>
+            <p className="mt-4 text-green-600 font-semibold select-none">{message}</p>
           )}
-          {error && <p className="mt-4 text-red-500 font-semibold">{error}</p>}
+          {error && (
+            <p className="mt-4 text-red-600 font-semibold select-none">{error}</p>
+          )}
         </div>
       </div>
     </div>

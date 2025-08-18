@@ -1,10 +1,88 @@
-import React from "react";
+import React, { useRef } from "react";
 import { LandingPageNav, Footer } from "./index";
 import { Link } from "react-router-dom";
+import { Typewriter } from "react-simple-typewriter";
+import bgImage from '/src/assets/backgroundImage4.jpg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileContract, faLaptop, faRegistered, faShieldAlt, faBolt, faUsers, faLightbulb } from "@fortawesome/free-solid-svg-icons";
-import { motion } from "motion/react"
-import bgImage from '/src/assets/backgroundImage2.jpg'; // Use public path to avoid import errors
+import {
+  faFileContract,
+  faLaptop,
+  faRegistered,
+  faShieldAlt,
+  faBolt,
+  faUsers,
+  faLightbulb,
+} from "@fortawesome/free-solid-svg-icons";
+import { motion } from "framer-motion";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
+const companies = [
+  { id: 1, name: "TechNova", logo: "https://logo.clearbit.com/microsoft.com", info: "Software, Bangalore", openings: 8 },
+  { id: 2, name: "CloudAxis", logo: "https://logo.clearbit.com/slack.com", info: "Cloud, Remote", openings: 13 },
+  { id: 3, name: "HealthWorks", logo: "https://logo.clearbit.com/philips.com", info: "Healthcare, Hyderabad", openings: 5 },
+  { id: 4, name: "GreenInfra", logo: "https://logo.clearbit.com/spotify.com", info: "Infrastructure, Mumbai", openings: 4 },
+  { id: 5, name: "ProDerive", logo: "https://logo.clearbit.com/amazon.com", info: "Development, Delhi", openings: 7 },
+  { id: 8, name: "Starlyt", logo: "https://logo.clearbit.com/uber.com", info: "Technology, Pune", openings: 6 },
+  { id: 3, name: "HealthWorks", logo: "https://logo.clearbit.com/philips.com", info: "Healthcare, Hyderabad", openings: 5 },
+  { id: 5, name: "ProDerive", logo: "https://logo.clearbit.com/amazon.com", info: "Development, Delhi", openings: 7 },];
+
+function CompaniesActivelyHiring() {
+  const scrollRef = useRef();
+
+  const scroll = (offset) => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: offset, behavior: "smooth" });
+    }
+  };
+
+  return (
+    <section className="my-24 max-w-9xl mx-auto px-4 md:px-8">
+      <h2 className="text-5xl font-extrabold text-center mb-12 text-cyan-800 tracking-wider select-none">
+        Top Companies Actively Hiring
+      </h2>
+      <div className="relative">
+        {/* Left Arrow */}
+        <button
+          onClick={() => scroll(-360)}
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 p-3 bg-cyan-600/90 hover:bg-cyan-700 text-white rounded-full focus:outline-none focus:ring-4 focus:ring-cyan-400 shadow-lg"
+          aria-label="Scroll left"
+        >
+          <FaChevronLeft size={28} />
+        </button>
+
+        {/* Scroll Container */}
+        <div
+          ref={scrollRef}
+          className="flex overflow-x-auto no-scrollbar gap-8 py-6 px-14 scroll-smooth snap-x snap-mandatory"
+        >
+          {companies.map((co) => (
+            <div
+              key={co.id}
+              className="min-w-[280px] max-w-[280px]  border  rounded-2xl flex flex-col items-center py-10 px-8 snap-center cursor-pointer hover:scale-105 hover:bg-cyan-100 transition-transform duration-300 shadow-lg"
+              title={`${co.name} - ${co.openings} Openings`}
+            >
+              <div className="w-20 h-20 mb-6 rounded-xl overflow-hidden bg-white flex items-center justify-center shadow-md">
+                <img src={co.logo} alt={co.name} className="object-contain w-16 h-16" />
+              </div>
+              <h3 className="text-2xl font-extrabold text-cyan-800 mb-2 text-center truncate w-full">{co.name}</h3>
+              <p className="text-cyan-600 text-sm mb-4 text-center truncate w-full">{co.info}</p>
+              <p className="font-semibold text-cyan-700 text-base">{co.openings} Openings</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Right Arrow */}
+        <button
+          onClick={() => scroll(360)}
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 p-3 bg-cyan-600/90 hover:bg-cyan-700 text-white rounded-full focus:outline-none focus:ring-4 focus:ring-cyan-400 shadow-lg"
+          aria-label="Scroll right"
+        >
+          <FaChevronRight size={28} />
+        </button>
+      </div>
+    </section>
+  );
+}
 
 function LandingPage() {
   return (
@@ -13,7 +91,7 @@ function LandingPage() {
 
       {/* HERO SECTION */}
       <section
-        className="relative min-h-[78vh] flex items-center justify-center"
+        className="relative min-h-[75vh] flex items-center justify-center overflow-hidden"
         style={{
           backgroundImage: `url(${bgImage})`,
           backgroundSize: "cover",
@@ -21,140 +99,205 @@ function LandingPage() {
           backgroundRepeat: "no-repeat",
         }}
       >
-        {/* Overlay with smooth gradient and blur */}
-        <div
-          className="absolute inset-0 z-0"
-          style={{
-            background: "linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.85) 100%)",
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
-          }}
-        ></div>
+        {/* Overlay */}
+        <div className="absolute inset-0 backdrop-blur-[2px]" />
 
-        {/* CENTERED Hero Content */}
-        <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 py-28 max-w-3xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-cyan-400 via-teal-300 to-purple-400 bg-clip-text text-transparent mb-8 drop-shadow-[0_4px_30px_rgba(0,255,255,0.40)] select-none">
-            Find a job with your interest and Abilities!!
+        {/* Hero Content */}
+        <div className="relative z-10 flex flex-col items-center justify-center text-center px-8 py-24 max-w-4xl mx-auto select-none pointer-events-none">
+          {/* Static Heading */}
+          <h1
+            className="text-5xl sm:text-6xl md:text-7xl font-extrabold leading-tight mb-4 font-[Poppins,sans-serif]"
+            style={{
+              color: "#064579",
+              textShadow: "2px 2px 8px #fff, 0px 4px 16px #91b7ed99, 0 0 32px #fff4",
+            }}
+          >
+            Find Your Dream Job
           </h1>
-          <p className="text-lg md:text-xl font-light text-cyan-200 mb-14 max-w-xl drop-shadow-md leading-relaxed">
-            Unlock your potential and discover opportunities that match your skills and ambitions.
+
+          {/* Dynamic Typewriter Text */}
+          <h2
+            className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[#0b3b60] tracking-wide mb-8 min-h-[60px]"
+          >
+            <Typewriter
+              words={[
+                "With Passion & Skills",
+                "With Confidence & Growth",
+                "With Innovation & Success",
+              ]}
+              loop={0}
+              cursor
+              cursorStyle="|"
+              typeSpeed={70}
+              deleteSpeed={40}
+              delaySpeed={2000}
+            />
+          </h2>
+
+          {/* Description Text */}
+          <p className="text-lg md:text-xl text-gray-900 max-w-2xl mb-10 font-medium tracking-wide leading-relaxed pointer-events-auto">
+            Empower your career journey with personalized opportunities, seamless applications, and instant updates.
           </p>
+
           <Link
             to="/signup"
-            className="inline-block text-lg md:text-xl px-12 py-4 rounded-3xl font-extrabold bg-gradient-to-r from-cyan-500 to-purple-600
-           hover:from-cyan-400 hover:to-purple-500 shadow-lg text-white transition-transform transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-cyan-400 tracking-wider"
+            className="inline-block rounded-full bg-gradient-to-r from-cyan-600 to-blue-700 px-14 py-4 text-white font-semibold text-lg hover:scale-105 active:scale-98 transition-transform duration-300 focus:outline-none focus:ring-4 focus:ring-cyan-300 pointer-events-auto"
           >
             Get Started
           </Link>
         </div>
       </section>
 
-      <main className="relative bg-gradient-to-br from-black to-cyan-900 text-cyan-200">
-        {/* HOW TO GET A JOB (full width + big gap below)*/}
-        <section className="max-w-7xl mx-auto py-24 px-4 md:px-20 min-h-[45vh]">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-center text-cyan-400 mb-24 select-none tracking-wide">
-            How to get a Job?
+      {/* MAIN CONTENT */}
+      <main className="bg-gradient-to-b from-white to-cyan-50 py-24 px-6 md:px-20 z-20">
+        {/* HOW TO GET A JOB */}
+        <section className="max-w-7xl mx-auto mb-28">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-center text-cyan-800 mb-20 tracking-wide font-[Poppins,sans-serif]">
+            How to Get a Job?
           </h2>
-          <div className="flex flex-col md:flex-row justify-center gap-16 text-center max-w-full mx-auto px-2">
+
+          <div className="flex flex-col md:flex-row justify-center gap-12 max-w-full mx-auto px-2">
             {[
               {
                 icon: faRegistered,
                 title: "Register Account",
                 desc: "Create your profile to unlock personalized job opportunities tailored just for you.",
+                bgColor: "bg-cyan-600",
+                iconColor: "text-white",
               },
               {
                 icon: faFileContract,
                 title: "Apply for Job",
                 desc: "Browse listings and submit applications with a click. Track your progress in real-time.",
+                bgColor: "bg-purple-600",
+                iconColor: "text-white",
               },
               {
                 icon: faLaptop,
                 title: "Perform the Job",
                 desc: "Once hired, showcase your skills and keep growing your career with continuous support.",
+                bgColor: "bg-pink-600",
+                iconColor: "text-white",
               },
-            ].map(({ icon, title, desc }, i) => (
+            ].map(({ icon, title, desc, bgColor, iconColor }, i) => (
               <motion.div
                 key={title}
-                initial={{ opacity: 0, y: 96 }}
+                initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ delay: i * 0.18, duration: 3, type: "spring" }}
-                className="group cursor-default w-full md:w-1/3 bg-black/70 backdrop-blur-lg rounded-2xl p-12 flex flex-col items-center shadow-lg shadow-cyan-800/60 hover:shadow-cyan-400 transition-shadow duration-300"
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ delay: i * 0.2, duration: 0.8, type: "spring", stiffness: 80 }}
+                className="group cursor-default flex-1 rounded-3xl bg-white shadow-xl p-10 flex flex-col items-center text-center hover:shadow-2xl transition-shadow duration-300"
               >
-                <FontAwesomeIcon
-                  icon={icon}
-                  size="5x"
-                  className="text-cyan-400 mb-6 group-hover:scale-110 transition-transform duration-300"
-                />
-                <h3 className="text-3xl font-extrabold text-cyan-300 mb-6">{title}</h3>
-                <p className="text-cyan-200 font-light leading-relaxed max-w-[90%]">{desc}</p>
+                <div className={`${bgColor} p-6 rounded-full mb-8 shadow-lg flex items-center justify-center w-20 h-20`}>
+                  <FontAwesomeIcon icon={icon} size="3x" className={`${iconColor} drop-shadow-md`} />
+                </div>
+                <h3 className="text-2xl font-bold mb-4 text-gray-800 group-hover:text-cyan-600 transition-colors duration-300">
+                  {title}
+                </h3>
+                <p className="text-gray-600 font-medium leading-relaxed max-w-xs">{desc}</p>
               </motion.div>
             ))}
           </div>
         </section>
 
-        {/* BIG GAP */}
-        <div className="w-full h-16 md:h-24" />
-
-        {/* WHY CHOOSE US SECTION (now 4 features, brighter, modern) */}
-        <section className="max-w-10xl mx-auto py-24 px-4 md:px-20">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-16 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent tracking-wide select-none">
+        {/* WHY CHOOSE US */}
+        <section className="max-w-7xl mx-auto py-12 px-4 rounded-3xl bg-gradient-to-r from-cyan-100 to-purple-200 shadow-2xl">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-center text-gray-900 mb-16 tracking-wide font-[Poppins,sans-serif]">
             Why Choose Us?
           </h2>
-          <div className="relative flex flex-col md:flex-row flex-wrap items-center justify-center gap-y-16 md:gap-y-0 md:gap-x-10">
 
-            {/* Timeline/connector vertical line on desktop */}
-            <div className="hidden md:block absolute left-1/2 top-16 bottom-16 w-1 h-20 bg-gradient-to-b from-cyan-500/40 via-transparent to-teal-300/40 rounded-full pointer-events-none" style={{ transform: 'translateX(-50%)' }}></div>
-
-            {/* FEATURE 1 */}
-            <div className="relative flex-1 flex flex-col items-center text-center px-6 min-w-[220px]">
-              <span className="flex items-center justify-center mb-5 w-20 h-20 rounded-full bg-gradient-to-br from-cyan-500 to-black/80 border-4 border-cyan-400 shadow-2xl animate-pulse">
-                <FontAwesomeIcon icon={faShieldAlt} className="text-white text-4xl drop-shadow-[0_0_16px_#67e8f9]" />
-              </span>
-              <h3 className="text-2xl md:text-3xl font-bold text-cyan-200 mb-3 tracking-wide">Trusted &amp; Secure</h3>
-              <p className="text-cyan-300 font-light leading-relaxed max-w-xs mx-auto">
-                Your data privacy is our top priority. Enjoy a safe, verified job search—always.
-              </p>
-            </div>
-
-            {/* FEATURE 2 */}
-            <div className="relative flex-1 flex flex-col items-center text-center px-6 min-w-[220px]">
-              <span className="flex items-center justify-center mb-5 w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-black/80 border-4 border-purple-400 shadow-2xl animate-pulse">
-                <FontAwesomeIcon icon={faBolt} className="text-white text-4xl drop-shadow-[0_0_16px_#c084fc]" />
-              </span>
-              <h3 className="text-2xl md:text-3xl font-bold text-purple-200 mb-3 tracking-wide">Fast Application</h3>
-              <p className="text-purple-200 font-light leading-relaxed max-w-xs mx-auto">
-                Lightning quick job search, one-click apply, instant notifications.
-              </p>
-            </div>
-
-            {/* FEATURE 3 */}
-            <div className="relative flex-1 flex flex-col items-center text-center px-6 min-w-[220px]">
-              <span className="flex items-center justify-center mb-5 w-20 h-20 rounded-full bg-gradient-to-br from-teal-400 to-black/80 border-4 border-teal-300 shadow-2xl animate-pulse">
-                <FontAwesomeIcon icon={faUsers} className="text-white text-4xl drop-shadow-[0_0_16px_#5eead4]" />
-              </span>
-              <h3 className="text-2xl md:text-3xl font-bold text-teal-200 mb-3 tracking-wide">Community Support</h3>
-              <p className="text-teal-200 font-light leading-relaxed max-w-xs mx-auto">
-                Join a professional community, get real support at every career step.
-              </p>
-            </div>
-
-            {/* FEATURE 4 (NEW) */}
-            <div className="relative flex-1 flex flex-col items-center text-center px-6 min-w-[220px]">
-              <span className="flex items-center justify-center mb-5 w-20 h-20 rounded-full bg-gradient-to-br from-yellow-400 to-black/80 border-4 border-yellow-300 shadow-2xl animate-pulse">
-                <FontAwesomeIcon icon={faLightbulb} className="text-white text-4xl drop-shadow-[0_0_16px_#fde68a]" />
-              </span>
-              <h3 className="text-2xl md:text-3xl font-bold text-yellow-100 mb-3 tracking-wide">Career Guidance</h3>
-              <p className="text-yellow-100 font-light leading-relaxed max-w-xs mx-auto">
-                Get expert tips, career advice & personalized recommendations anytime.
-              </p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-14">
+            {[
+              {
+                icon: faShieldAlt,
+                title: "Trusted & Secure",
+                desc: "Your data privacy is our top priority. Enjoy a safe, verified job search—always.",
+                iconColor: "text-cyan-700 bg-cyan-200",
+              },
+              {
+                icon: faBolt,
+                title: "Fast Application",
+                desc: "Lightning quick job search, one-click apply, instant notifications.",
+                iconColor: "text-purple-700 bg-purple-200",
+              },
+              {
+                icon: faUsers,
+                title: "Community Support",
+                desc: "Join a professional community, get real support at every career step.",
+                iconColor: "text-pink-700 bg-pink-200",
+              },
+              {
+                icon: faLightbulb,
+                title: "Career Guidance",
+                desc: "Get expert tips, career advice & personalized recommendations anytime.",
+                iconColor: "text-yellow-600 bg-yellow-200",
+              },
+            ].map(({ icon, title, desc, iconColor }, i) => (
+              <motion.div
+                key={title}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ delay: i * 0.15, duration: 0.7, type: "spring" }}
+                className="flex flex-col items-center text-center p-6 rounded-3xl bg-white shadow-lg hover:shadow-2xl cursor-default select-none"
+              >
+                <div className={`p-5 rounded-full mb-6 shadow-md ${iconColor}`}>
+                  <FontAwesomeIcon icon={icon} className="text-4xl" />
+                </div>
+                <h3 className="text-2xl font-semibold mb-3 text-gray-900">{title}</h3>
+                <p className="text-gray-700 font-medium leading-relaxed max-w-xs">{desc}</p>
+              </motion.div>
+            ))}
           </div>
         </section>
-
-
-
       </main>
+
+      {/* Companies Section just above footer */}
+      <CompaniesActivelyHiring />
+
+      <motion.section
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        
+        className="max-w-7xl mx-auto my-24 px-6 md:px-12 duration-200 ">
+        <div className="flex flex-col md:flex-row items-center justify-between bg-gradient-to-b from-indigo-50 to-indigo-300 rounded-3xl shadow-lg p-8 gap-6 duration-200 hover:shadow-lg">
+
+          {/* Left Icon/Image */}
+          <div className="flex-shrink-0">
+            {/* Example icon, you can replace with an <img> or svg */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-20 w-20 text-indigo-800"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.014 0-3 .386-3 3s1.986 3 3 3 3-.386 3-3-1.986-3-3-3z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 2v3m0 12v3m9-9h-3M6 12H3m15.364-6.364l-2.121 2.121M7.757 16.243l-2.122 2.122m12.728 0l-2.122-2.122M7.757 7.757L5.636 5.636" />
+            </svg>
+          </div>
+
+          {/* Center Text */}
+          <div className="flex-1 text-center md:text-left">
+            <p className="text-xl md:text-xl font-semibold py-5 leading-relaxed">
+              Accelerate your job search with premium services. Services to help you get hired, faster: from preparing your CV, getting recruiter attention, finding the right jobs, and more!
+            </p>
+          </div>
+
+          {/* Right Button */}
+          <div>
+            <button
+              type="button"
+              className="bg-indigo-800 hover:bg-indigo-900 text-white font-semibold px-8 py-3 rounded-full transition transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-cyan-400"
+            >
+              Learn More
+            </button>
+          </div>
+
+        </div>
+      </motion.section>
+
 
       <Footer />
     </>

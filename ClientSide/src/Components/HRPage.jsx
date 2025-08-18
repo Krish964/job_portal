@@ -6,7 +6,7 @@ function HRPage() {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+ 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     fetch("http://localhost:8000/api/users/HrPage", {
@@ -31,10 +31,22 @@ function HRPage() {
   }, []);
 
   const handleSucceed = (app) => {
-    // Yahan aap wo logic likh sakte ho jab HR succeed button dabaye
-    // Backend ko inform karo, ya MQTT message bhejo etc.
-    alert(`Succeed clicked for User: ${app.username}, Job: ${app.title}`);
-    // Example: fetch/post request to backend to mark success
+    const userId = localStorage.getItem("userId")
+    console.log(userId)
+   alert(`Succeed clicked for User: ${app.username}, Job: ${app.title}`);
+    fetch("http://localhost:8000/api/users/notification", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: userId,
+        username: app.username,
+        companyName: app.companyName
+      }),
+      
+    }).then((res) => {
+      if (!res.ok) throw new Error('Failed to send notification');
+      return res.json();
+    })
   };
 
   return (

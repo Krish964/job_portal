@@ -4,7 +4,9 @@ import JobDetail from "./JobFullDetail"; // Ensure this path is correct
 import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-
+import JobsTitle from "./JobsTitle"
+import JobsFilterSidebar from "./Filter";
+import JobsTitleNav from "./Bookmarks";
 function Jobs() {
   const [jobs, setJobs] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
@@ -57,34 +59,57 @@ function Jobs() {
 
   return (
     <>
-      {/* Inline CSS for custom scrollbar */}
       <style>{`
-        /* Webkit scrollbar */
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: rgba(100, 255, 218, 0.3);
-          border-radius: 3px;
-          transition: background-color 0.3s;
-        }
-        .custom-scrollbar:hover::-webkit-scrollbar-thumb {
-          background-color: rgba(100, 255, 218, 0.7);
-        }
-        /* Firefox scrollbar */
-        .custom-scrollbar {
-          scrollbar-width: thin;
-          scrollbar-color: rgba(100, 255, 218, 0.3) transparent;
-        }
-        .custom-scrollbar:hover {
-          scrollbar-color: rgba(100, 255, 218, 0.7) transparent;
-        }
-      `}</style>
+  /* Webkit scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(50, 50, 50, 0.7); /* Dark gray/black */
+    border-radius: 3px;
+    transition: background-color 0.3s;
+  }
+  .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(80, 80, 80, 0.9);
+  }
+  /* Firefox scrollbar */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(50, 50, 50, 0.7) transparent;
+  }
+  .custom-scrollbar:hover {
+    scrollbar-color: rgba(80, 80, 80, 0.9) transparent;
+  }
+`}</style>
 
-      <div className="flex h-[100vh] text-white">
+
+
+      {/* <div className="title flex flex-wrap gap-8 justify-center items-center my-15 bg-white p-8 rounded-xl">
+        {
+          jobs.slice(0, 8).map((job) => (
+            <JobsTitle job={job} key={job._id} />
+          ))
+        }
+      </div> */}
+
+
+
+      <JobsTitleNav />
+
+      {/* Jobs Header */}
+      <section className="max-w-7xl mx-auto">
+        <h2 className="text-5xl font-extrabold text-center text-gray-800 font-mono mt-20 mb-12 select-none drop-shadow-lg">
+          Jobs You Might Be Interested In
+        </h2>
+      </section>
+
+      <div className="flex h-[100vh] gap-3">
+
+        <JobsFilterSidebar />
+
         {/* Left Panel - Job List */}
         <div
           className="w-1/3  border-r border-gray-700 overflow-y-auto custom-scrollbar"
@@ -102,7 +127,7 @@ function Jobs() {
 
         {/* Right Panel - Job Details */}
         <div
-          className="flex-1 p-6 overflow-y-auto bg-gray-800 text-white custom-scrollbar"
+          className="flex-1 p-6 overflow-y-auto bg-white rounded-lg text-white "
           style={{ height: "100vh" }}
         >
           {selectedJob ? (
@@ -113,6 +138,7 @@ function Jobs() {
         </div>
       </div>
 
+
       {/* Pagination */}
       <Stack
         direction="row"
@@ -121,24 +147,33 @@ function Jobs() {
         sx={{ width: "100%", mt: 5 }}
         spacing={2}
       >
-        <Typography>Page: {page}</Typography>
+        <Typography style={{ color: 'black', fontWeight: '', fontSize: '20px' }}>Page: {page}</Typography>
         <Pagination
           sx={{
+            backgroundColor: "#000", // black background
+            borderRadius: "8px",
+            padding: "13px 19px",
             "& .MuiPaginationItem-root": {
-              color: "#fff", // Text white
-              borderColor: "#0ff", // Neon cyan border
+              color: "#fff",  // white text
+              borderColor: "#555", // subtle border grey
+              transition: "background-color 0.3s, color 0.3s",
+              "&:hover": {
+                backgroundColor: "#333",  // hover gray bg
+                color: "#fff",
+              }
             },
             "& .Mui-selected": {
-              color: "#0ff", // Neon selected text
-              borderColor: "#0ff",
-              backgroundColor: "#111", // Dark background for contrast
-              boxShadow: "0 0 8px 2px #0ff", // Neon glow
+              backgroundColor: "#222 !important", // dark gray bg for selected
+              color: "#fff",
+              borderColor: "#888",
+              boxShadow: "0 0 6px 2px rgba(255,255,255,0.3)",  // white glow effect
             },
           }}
           count={10}
           page={page}
           onChange={handleChange}
         />
+
       </Stack>
     </>
   );

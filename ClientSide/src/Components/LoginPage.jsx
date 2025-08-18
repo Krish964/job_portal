@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const GoogleIcon = () => (
-  <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none">
+  <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" aria-hidden="true">
     <path
       d="M21.805 10.023h-9.92v3.68h5.68c-.242 1.237-1.122 3.627-5.681 3.627-3.422 0-6.211-2.852-6.211-6.365s2.79-6.367 6.211-6.367c1.943 0 3.245.832 3.995 1.55l2.722-2.635c-1.652-1.577-3.758-2.555-6.717-2.555-5.626 0-10.191 4.539-10.191 10.1s4.566 10.1 10.191 10.1c5.88 0 9.882-4.117 9.882-9.922 0-.667-.076-1.142-.158-1.708z"
-      fill="#fff"
+      fill="#4285F4"
     />
   </svg>
 );
@@ -17,6 +17,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
@@ -39,25 +40,23 @@ export default function LoginPage() {
       localStorage.setItem("refreshToken", data.refreshToken);
       localStorage.setItem("email", data.user.email);
       localStorage.setItem("username", data.user.username);
-      localStorage.setItem("isAdmin", data.user.isAdmin ? "true" : "false"); // save admin flag
+      localStorage.setItem("isAdmin", data.user.isAdmin ? "true" : "false");
 
       toast.update(toastId, {
         render: "Login Successful 🎉",
         type: "success",
         isLoading: false,
         autoClose: 1800,
-        theme: "dark",
+        theme: "colored",
       });
 
       setTimeout(() => {
         if (data.user.isAdmin) {
-          navigate("/adminPanel");   // Admin page redirect
-        }
-        else if (data.user.role === "hr") {
-          navigate("/HrPage")
-        }
-        else {
-          navigate("/mainpage"); // Normal user redirect
+          navigate("/adminPanel");
+        } else if (data.user.role === "hr") {
+          navigate("/HrPage");
+        } else {
+          navigate("/mainpage");
         }
       }, 750);
     } catch (err) {
@@ -67,108 +66,116 @@ export default function LoginPage() {
         type: "error",
         isLoading: false,
         autoClose: 2200,
-        theme: "dark",
+        theme: "colored",
       });
     } finally {
       setLoading(false);
     }
   };
 
-  
-
   const handleGoogleSignIn = () => {
     toast.info("Google Sign-In functionality coming soon!", {
-      theme: "dark",
+      theme: "colored",
     });
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-cyan-700">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-gray-50 to-gray-100 px-6">
       <div
-        className="w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-lg
-        h-[550px] md:h-[600px] lg:h-[700px]
-        rounded-2xl shadow-2xl bg-black/85 bg-clip-padding
-        backdrop-filter backdrop-blur-xl p-8 md:p-10 border border-cyan-700/40
-        flex flex-col items-center justify-center"
+        className="w-full max-w-md lg:max-w-lg xl:max-w-xl
+          bg-white rounded-3xl shadow-lg p-10 flex flex-col items-center border border-gray-200"
       >
-        <h1 className="text-4xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-purple-400 tracking-wider text-center select-none">
-          Job<span className="text-white">Portal</span>
+        {/* Brand Heading */}
+        <h1 className="text-5xl font-extrabold mb-2 text-gray-900 tracking-wide select-none">
+          Job<span className="text-indigo-600">Portal</span>
         </h1>
-        <h2 className="text-lg font-semibold mb-6 text-cyan-300 text-center">
+        <h2 className="text-xl font-semibold mb-8 text-gray-700 text-center">
           Welcome Back
         </h2>
 
+        {/* Error Message */}
         {error && (
-          <div className="mb-4 w-full text-center p-2 rounded bg-red-700/80 text-red-100 font-bold animate-pulse">
+          <div className="mb-6 w-full text-center p-3 rounded-lg bg-red-100 text-red-700 font-semibold animate-pulse shadow-md">
             {error}
           </div>
         )}
 
-        <form className="space-y-4 w-full" onSubmit={handleSubmit} autoComplete="off">
-          <label className="w-full block">
-            <span className="text-cyan-300 font-medium mb-1 block">Email</span>
+        {/* Login Form */}
+        <form className="space-y-6 w-full" onSubmit={handleSubmit} autoComplete="off">
+          {/* Email Input */}
+          <label className="block w-full">
+            <span className="text-gray-800 font-medium mb-2 block">Email</span>
             <input
               type="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="your@email.com"
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="your@example.com"
               required
               autoFocus
-              className="w-full py-3 px-5 rounded-xl bg-black/80 border border-cyan-700 text-cyan-100 placeholder-cyan-500 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-300 transition"
+              className="w-full py-3 px-6 rounded-2xl border border-gray-300 text-gray-900 placeholder-gray-400 outline-none
+                focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400 transition duration-300 shadow-sm"
             />
           </label>
 
-          <label className="w-full block">
-            <span className="text-cyan-300 font-medium mb-1 block">Password</span>
+          {/* Password Input */}
+          <label className="block w-full">
+            <span className="text-gray-800 font-medium mb-2 block">Password</span>
             <input
               type="password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              className="w-full py-3 px-5 rounded-xl bg-black/80 border border-cyan-700 text-cyan-100 placeholder-cyan-500 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-300 transition"
+              className="w-full py-3 px-6 rounded-2xl border border-gray-300 text-gray-900 placeholder-gray-400 outline-none
+                focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400 transition duration-300 shadow-sm"
             />
           </label>
 
+          {/* Login Button */}
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 font-bold shadow-lg hover:from-cyan-400 hover:to-purple-500 hover:shadow-xl transition text-white text-lg tracking-wide ${loading ? "opacity-70 cursor-not-allowed" : "cursor-pointer"
-              }`}
+            className={`w-full py-3 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-700 font-extrabold 
+              hover:from-indigo-700 hover:to-purple-800 transition duration-300 text-white text-lg tracking-wide
+              ${loading ? "opacity-70 cursor-not-allowed" : "cursor-pointer"}`}
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
         {/* Divider */}
-        <div className="flex items-center my-5 w-full">
-          <div className="flex-grow border-t border-cyan-800" />
-          <span className="px-2 text-cyan-400 font-semibold text-sm">or</span>
-          <div className="flex-grow border-t border-cyan-800" />
+        <div className="flex items-center my-8 w-full">
+          <div className="flex-grow border-t border-gray-300" />
+          <span className="px-4 text-gray-500 font-semibold text-sm select-none">or</span>
+          <div className="flex-grow border-t border-gray-300" />
         </div>
 
-        {/* Google Sign-In */}
+        {/* Google Sign-In Button */}
         <button
           onClick={handleGoogleSignIn}
-          className="w-full flex items-center justify-center py-3 rounded-xl border border-cyan-600 text-cyan-300 font-bold text-base bg-gradient-to-r from-black/60 via-cyan-900/60 to-black/60 hover:bg-black/80 hover:text-white shadow-md hover:shadow-cyan-900 transition hover:scale-105"
+          className="w-full flex items-center justify-center py-3 rounded-2xl border border-indigo-600 text-indigo-700 font-semibold text-base
+            bg-indigo-100 hover:bg-indigo-200 hover:text-indigo-900 transition hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-400"
         >
           <GoogleIcon />
           Sign in with Google
         </button>
 
-        <div className="mt-4 text-center w-full">
+        {/* Forgot Password Link */}
+        <div className="mt-6 text-center w-full">
           <Link
             to="/forgot-password"
-            className="text-cyan-300/80 hover:text-cyan-200 text-sm font-medium hover:underline transition"
+            className="text-indigo-600 hover:text-indigo-700 text-sm font-medium hover:underline transition"
           >
             Forgot Password?
           </Link>
         </div>
-        <div className="mt-6 text-center text-cyan-300 font-medium">
+
+        {/* Sign Up Link */}
+        <div className="mt-6 text-center text-indigo-700 font-medium">
           New here?{" "}
           <Link
             to="/signup"
-            className="text-cyan-200 hover:text-cyan-100 font-bold hover:underline"
+            className="text-purple-700 hover:text-purple-800 font-bold hover:underline"
           >
             Create an account
           </Link>
