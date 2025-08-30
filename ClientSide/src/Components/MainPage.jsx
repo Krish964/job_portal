@@ -6,16 +6,16 @@ import JobsTitle from "./JobsTitle";
 
 function MainPage() {
 
-  const [search , setSearch] = useState("")
-  const [location , setLocation] = useState("")
-console.log(search , location)
+//   const [search , setSearch] = useState("")
+//   const [location , setLocation] = useState("")
+// console.log(search , location)
   return (
     <>
       <MainPageNavbar />
 
       <main className="bg-gray-100 pb-20 min-h-screen">
 
-        <div className="secondNav my-7">
+        {/* <div className="secondNav my-7">
           
           <SearchForm
             search={search}
@@ -24,7 +24,7 @@ console.log(search , location)
             setLocation={setLocation}
           />
          
-        </div>
+        </div> */}
 
         {/* Jobs List */}
         <Jobs />

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-function Logout() {
+function LogoutDrawer({ isOpen, onClose }) {
   const navigate = useNavigate();
 
   function handleLogout() {
@@ -16,49 +16,120 @@ function Logout() {
       theme: "dark",
     });
     navigate("/");
+    onClose();
   }
 
   const menuItems = [
-    { label: "Profile", onClick: () => navigate("/profile") },
-    { label: "Account", onClick: () => navigate("/account") },
-    { label: "Security", onClick: () => navigate("/security") },
-    { label: "Logout", onClick: handleLogout, danger: true },
+    { label: "Profile", onClick: () => { navigate("/profile"); onClose(); }, icon: "👤" },
+    { label: "Account", onClick: () => { navigate("/account"); onClose(); }, icon: "🔒" },
+    { label: "Security", onClick: () => { navigate("/security"); onClose(); }, icon: "🛡️" },
+    { label: "Logout", onClick: handleLogout, danger: true, icon: "🚪" },
   ];
 
   return (
-    <div className="absolute left-0 mt-2 w-52 bg-gradient-to-br from-gray-900 via-black/90 to-cyan-950 backdrop-blur-xl shadow-2xl border-none rounded-xl z-50 ring-1 ring-cyan-700/30">
-      <ul className="flex flex-col py-2 px-1">
-        {menuItems.map((item, idx) => (
-          <li
-            key={item.label}
-            onClick={item.onClick}
-            tabIndex={0}
-            role="menuitem"
-            className={`mx-1 my-0.5 px-5 py-3 rounded-lg font-semibold text-base 
-              cursor-pointer select-none transition-all duration-150
-              focus:outline-none focus:bg-cyan-900/75
-              hover:bg-cyan-800/75 hover:text-cyan-100
-              ${idx === 0 ? "mt-1" : ""
-              }
-              ${idx === menuItems.length - 1
-                ? "text-red-500 mt-2 hover:bg-red-600/90 hover:text-white"
-                : ""
-              }
-              ${item.danger ? "text-red-500 hover:bg-red-600/90 hover:text-white" : "text-cyan-200"}
-            `}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                item.onClick();
-              }
-            }}
-          >
-            {item.label}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      {/* Overlay behind drawer */}
+      <div
+        onClick={onClose}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: isOpen ? "100vw" : 0,
+          height: "100vh",
+          backgroundColor: "rgba(0,0,0,0.15)",
+          opacity: isOpen ? 1 : 0,
+          visibility: isOpen ? "visible" : "hidden",
+          transition: "opacity 0.3s ease, visibility 0.3s ease",
+          zIndex: 998,
+          cursor: "pointer",
+        }}
+      />
+
+      {/* Drawer */}
+      <aside
+        style={{
+          position: "fixed",
+          top: 60,
+          right: 0,
+          width: 320,
+          height: "100vh",
+          backgroundColor: "#ffffff",
+          boxShadow: "-3px 0 18px rgba(0,0,0,0.22)",
+          borderRadius: "8px 0 0 8px",
+          transform: isOpen ? "translateX(0)" : "translateX(100%)",
+          transition: "transform 0.4s ease",
+          zIndex: 999,
+          display: "flex",
+          flexDirection: "column",
+          paddingTop: 24,
+          color: "#000000",
+          fontFamily: "Arial, sans-serif",
+          userSelect: "none",
+        }}
+        aria-hidden={!isOpen}
+      >
+        <ul
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 16,
+            padding: "0 20px",
+            flexGrow: 1,
+          }}
+          role="menu"
+        >
+          {menuItems.map((item) => (
+            <li
+              key={item.label}
+              onClick={item.onClick}
+              tabIndex={0}
+              role="menuitem"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  item.onClick();
+                }
+              }}
+              style={{
+                cursor: "pointer",
+                padding: "14px 20px",
+                borderRadius: 10,
+                fontWeight: "600",
+                fontSize: 18,
+                display: "flex",
+                alignItems: "center",
+                gap: 16,
+                backgroundColor: "transparent",
+                color: item.danger ? "#dc2626" : "#000000",
+                transition: "background-color 0.25s, color 0.25s",
+                justifyContent: 'flex-start',
+                textAlign: "left",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = item.danger ? "#dc2626" : "#e0f2fe";
+                e.currentTarget.style.color = item.danger ? "#fff" : "#0369a1";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
+                e.currentTarget.style.color = item.danger ? "#dc2626" : "#000000";
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 24,
+                  color: "inherit",
+                }}
+              >
+                {item.icon}
+              </span>
+              {item.label}
+            </li>
+          ))}
+        </ul>
+      </aside>
+    </>
   );
 }
 
-export default Logout;
+export default LogoutDrawer;

@@ -8,6 +8,7 @@ import { getAllApplications } from "../Controllers/admin.controllers.js"
 import { handlePasswordReset } from "../Controllers/forgetPassword.controllers.js";
 import { resetPasswordHandler } from "../Controllers/newPassword.controllers.js";
 import { notificationHandler } from "../Controllers/Notification.controllers.js";
+import { otpHandler, verifyOtp } from "../Controllers/Otp.controllers.js";
 const router = Router()
 
 router.route("/register").post(
@@ -22,5 +23,7 @@ router.route("/HrPage").get(authenticateUser, getAllApplications)
 router.route("/forgetPassword").post(handlePasswordReset)
 router.route("/reset-password").post(resetPasswordHandler)
 router.route("/notification").post(notificationHandler)
+router.route("/send-otp").post(otpHandler)
+router.route("/verify-otp").post(verifyOtp)
 
 export default router

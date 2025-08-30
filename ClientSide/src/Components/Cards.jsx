@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaBuilding, FaMoneyBill, FaSuitcase, FaStar, FaBookmark } from "react-icons/fa";
+import { FaBuilding, FaMoneyBill, FaSuitcase, FaStar } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 function JobCard({ job, onClick, isSelected }) {
@@ -76,17 +76,18 @@ function JobCard({ job, onClick, isSelected }) {
       `}
       style={{
         minHeight: "170px",
-        maxWidth: "600px",
-        width: "100%",
-        margin: "12px auto",
-        boxSizing: "border-box"
+        width: "100%", // Full width of container
+        margin: "12px 0",
+        boxSizing: "border-box",
       }}
     >
       {/* Card Top: Title + Badge */}
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-gray-900 font-bold text-lg truncate">{job.title}</h3>
         <span
-          className={`text-xs font-semibold uppercase px-3 py-1 rounded border whitespace-nowrap ${getJobTypeBadgeClass(job.type)}`}
+          className={`text-xs font-semibold uppercase px-3 py-1 rounded border whitespace-nowrap ${getJobTypeBadgeClass(
+            job.type
+          )}`}
         >
           {job.type || job.employmentType || "N/A"}
         </span>
@@ -112,7 +113,8 @@ function JobCard({ job, onClick, isSelected }) {
             {job.descriptionBreakdown?.salaryRangeMinYearly &&
               job.descriptionBreakdown?.salaryRangeMaxYearly ? (
               <span className="text-gray-900 font-medium">
-                ${job.descriptionBreakdown.salaryRangeMinYearly.toLocaleString()} - ${job.descriptionBreakdown.salaryRangeMaxYearly.toLocaleString()}
+                ${job.descriptionBreakdown.salaryRangeMinYearly.toLocaleString()} - $
+                {job.descriptionBreakdown.salaryRangeMaxYearly.toLocaleString()}
               </span>
             ) : (
               <span className="text-gray-500 italic">Salary not disclosed</span>
@@ -139,7 +141,7 @@ function JobCard({ job, onClick, isSelected }) {
         </p>
       )}
 
-      {/* Card Footer: Apply Button + Save Icon */}
+      {/* Card Footer: Apply Button + Save Button */}
       <div className="flex items-center justify-between pt-2">
         <button
           onClick={sendRequest}
@@ -152,24 +154,18 @@ function JobCard({ job, onClick, isSelected }) {
         >
           {applied ? "Applied" : loading ? "Applying..." : "Apply"}
         </button>
-        {/* Save/Bookmark icon */}
-        <span
+
+        {/* Save/Remove Button */}
+        <button
           onClick={toggleSave}
-          className="ml-3 cursor-pointer flex items-center justify-center w-9 h-9 rounded-full border border-gray-300 transition-colors"
-          style={{
-            backgroundColor: saved ? "#22c55e" : "#000", // green if saved, else black
-            transition: "background-color 0.3s",
-          }}
+          className={`ml-3 px-4 py-2 rounded font-semibold border transition-colors focus:outline-none ${saved ? "bg-black text-white border-black hover:bg-gray-800" : "bg-white text-black border-gray-400 hover:bg-gray-100"
+            }`}
           title={saved ? "Remove from saved jobs" : "Save job"}
           aria-label={saved ? "Remove from saved jobs" : "Save job"}
+          style={{ minWidth: 110 }}
         >
-          <FaBookmark
-            size={20}
-            color="#fff"
-            style={{ transition: "color 0.3s" }}
-          />
-        </span>
-
+          {saved ? "Remove" : "Save"}
+        </button>
       </div>
     </div>
   );

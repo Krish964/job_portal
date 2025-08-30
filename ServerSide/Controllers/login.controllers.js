@@ -4,6 +4,22 @@ import { User } from "../Models/User.models.js";
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
+  const generateAccessTokenAndRefreshTokens = async (userId) => {
+    try {
+      const user = await User.findById(userId)
+      const accessToken = user.generateTokens();
+      const refreshToken = user.generateRefreshTokens();
+
+      user.refreshToken = refreshToken;
+      await user.save({ validateBeforeSave: false });
+
+      return {accessToken , refreshToken}
+      
+    } catch (error) {
+      return res.status(400).json({ error:"Error in generating refresh tokens and access token" })
+    }
+  }
+
   if (!email?.trim() || !password?.trim()) {
     return res.status(400).json({ error: "Email and password are required" });
   }
@@ -72,7 +88,7 @@ export const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       console.log("User not found for email:", email);
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(401).json({ error: "User not found...Please SignUp" });
     }
 
     const isPasswordValid = await user.isPasswordCorrect(password);
@@ -82,11 +98,7 @@ export const loginUser = async (req, res) => {
     }
 
     // Generate tokens via User model methods
-    const accessToken = user.generateTokens();
-    const refreshToken = user.generateRefreshTokens();
-
-    user.refreshToken = refreshToken;
-    await user.save({ validateBeforeSave: false });
+    const { accessToken , refreshToken} = await generateAccessTokenAndRefreshTokens(user._id)
 
     return res.status(200).json({
       message: "Login successful",

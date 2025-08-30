@@ -3,6 +3,7 @@ import './App.css'
 import { SignupPage, LoginPage, LandingPage, About, Contact, MainPage, ForgetPassword, AdminPage, ResetPassword , HRPage} from './Components/index'
 import { Route, Routes } from 'react-router-dom'
 import { ToastContainer } from "react-toastify";
+import AppliedJobs from './Components/AppliedJobs';
 function App() {
   const [count, setCount] = useState(0)
 
@@ -19,6 +20,7 @@ function App() {
         <Route path='/adminPanel' element={<AdminPage/>}></Route>
         <Route path='/ResetPassword' element={<ResetPassword/>}></Route>
         <Route path='/HrPage' element={<HRPage/>}></Route>
+        <Route path='/applied' element={<AppliedJobs/>}></Route>
       </Routes>
 
       <ToastContainer />

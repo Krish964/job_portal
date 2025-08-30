@@ -51,7 +51,7 @@ function JobsFilterSidebar({ onApplyFilters, onClearFilters }) {
   };
 
   return (
-    <aside className="bg-white text-gray-900 rounded-2xl shadow border border-gray-200 p-7 w-80 min-h-[500px] mt-4 flex flex-col gap-7">
+    <aside className="bg-white text-gray-900 rounded-2xl shadow border border-gray-200 p-7 w-80 h-screen sticky top-0 mt-4 flex flex-col gap-7">
       <h2 className="text-2xl font-bold mb-2 tracking-tight">Filters</h2>
 
       {/* Job Type */}
@@ -86,7 +86,7 @@ function JobsFilterSidebar({ onApplyFilters, onClearFilters }) {
           step="5000"
           value={salaryRange}
           onChange={(e) => setSalaryRange([Number(e.target.value), Math.max(salaryRange[1], Number(e.target.value))])}
-          className="w-full accent-black mb-1"
+          className="w-full accent-teal-700 mb-1"
         />
         <input
           type="range"
@@ -95,7 +95,7 @@ function JobsFilterSidebar({ onApplyFilters, onClearFilters }) {
           step="5000"
           value={salaryRange[1]}
           onChange={(e) => setSalaryRange([Math.min(salaryRange, Number(e.target.value)), Number(e.target.value)])}
-          className="w-full accent-black"
+          className="w-full accent-teal-700"
         />
         <div className="flex justify-between mt-1 text-xs text-gray-500">
           <span>0</span>

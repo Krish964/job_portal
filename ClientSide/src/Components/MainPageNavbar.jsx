@@ -11,7 +11,7 @@ import {
   faUserCircle,
   faBell,    // notification icon
 } from "@fortawesome/free-solid-svg-icons";
-import { Logout } from "./index.js";
+import  LogoutDrawer  from "./Logout.jsx";
 import mqtt from "mqtt";
 
 function MainPageNavbar() {
@@ -23,6 +23,11 @@ function MainPageNavbar() {
   const [notifications, setNotifications] = useState([]);
   const [newNotificationCount, setNewNotificationCount] = useState(0);
   const [userId, setUserId] = useState(null);
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawer = () => setDrawerOpen((prev) => !prev);
+
 
   // Get username and userId from localStorage on mount
   useEffect(() => {
@@ -189,11 +194,11 @@ function MainPageNavbar() {
           {/* User Icon + Modal */}
           <div className="flex justify-center items-center gap-3">
             <div
-              className="relative group transition-transform duration-300 hover:scale-110"
-              onClick={toggleModal}
+              className="relative group transition-transform duration-300 hover:scale-110 cursor-pointer"
+              onClick={toggleDrawer}
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") toggleModal();
+                if (e.key === "Enter" || e.key === " ") toggleDrawer();
               }}
               role="button"
               aria-label="User menu"
@@ -202,14 +207,15 @@ function MainPageNavbar() {
                 icon={faUserCircle}
                 className="text-4xl text-gray-900 drop-shadow-xl transition duration-300"
               />
-              {modal && <Logout />}
               <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-500 border-2 border-black animate-pulse"></span>
             </div>
-
-            <span className=" font-semibold cursor-default transition-colors duration-300 hover:text-cyan-300 select-text md:select-none text-lg font-mono">
+            <span className="font-semibold cursor-default transition-colors duration-300 hover:text-cyan-300 select-text md:select-none text-lg font-mono">
               {username}
             </span>
           </div>
+
+          {/* Drawer Component */}
+          <LogoutDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
         </div>
 
         {/* Mobile Menu Button */}

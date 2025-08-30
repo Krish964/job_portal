@@ -3,11 +3,24 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const GoogleIcon = () => (
-  <svg className="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-    <path
-      d="M21.805 10.023h-9.92v3.68h5.68c-.242 1.237-1.122 3.627-5.681 3.627-3.422 0-6.211-2.852-6.211-6.365s2.79-6.367 6.211-6.367c1.943 0 3.245.832 3.995 1.55l2.722-2.635c-1.652-1.577-3.758-2.555-6.717-2.555-5.626 0-10.191 4.539-10.191 10.1s4.566 10.1 10.191 10.1c5.88 0 9.882-4.117 9.882-9.922 0-.667-.076-1.142-.158-1.708z"
-      fill="#4285F4"
-    />
+  <svg className="w-7 h-7 mr-2" viewBox="0 0 48 48">
+    <g>
+      <path d="M44.5,20H24v8.5h11.7c-1.1,3-4.2,5.6-8.5,5.6c-5.1,0-9.2-4.2-9.2-9.2s4.2-9.2,9.2-9.2c2.5,0,4.8,0.9,6.6,2.4l6.3-6.3
+        C38.2,8.3,31.7,6,24,6C12.9,6,4,14.9,4,26s8.9,20,20,20c11.1,0,20-8.9,20-20C44,23.3,44.3,21.6,44.5,20z"
+        fill="#FBBC05"
+      ></path>
+      <path d="M6.3,14.7l7,5.1C15.1,17.2,19.2,14,24,14c2.5,0,4.8,0.9,6.6,2.4l6.3-6.3C38.2,8.3,31.7,6,24,6
+        C15.1,6,7.6,11.7,6.3,14.7z"
+        fill="#EA4335"
+      ></path>
+      <path d="M24,46c6.7,0,12.3-2.2,16.5-5.9l-7.7-6.3c-2.1,1.5-4.7,2.3-7.7,2.3c-4.2,0-7.9-2.7-9.2-6.4l-7.1,5.5
+        C9.9,43,16.4,46,24,46z"
+        fill="#34A853"
+      ></path>
+      <path d="M44.5,20H24v8.5h11.7c-0.5,2.2-1.7,4.2-3.5,5.7c0,0,7.7,6.3,7.7,6.3C42.9,38.4,44,32.7,44.5,20z"
+        fill="#4285F4"
+      ></path>
+    </g>
   </svg>
 );
 
@@ -80,106 +93,115 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-gray-50 to-gray-100 px-6">
-      <div
-        className="w-full max-w-md lg:max-w-lg xl:max-w-xl
-          bg-white rounded-3xl shadow-lg p-10 flex flex-col items-center border border-gray-200"
-      >
-        {/* Brand Heading */}
-        <h1 className="text-5xl font-extrabold mb-2 text-gray-900 tracking-wide select-none">
-          Job<span className="text-indigo-600">Portal</span>
-        </h1>
-        <h2 className="text-xl font-semibold mb-8 text-gray-700 text-center">
-          Welcome Back
-        </h2>
-
-        {/* Error Message */}
-        {error && (
-          <div className="mb-6 w-full text-center p-3 rounded-lg bg-red-100 text-red-700 font-semibold animate-pulse shadow-md">
-            {error}
-          </div>
-        )}
-
-        {/* Login Form */}
-        <form className="space-y-6 w-full" onSubmit={handleSubmit} autoComplete="off">
-          {/* Email Input */}
-          <label className="block w-full">
-            <span className="text-gray-800 font-medium mb-2 block">Email</span>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@example.com"
-              required
-              autoFocus
-              className="w-full py-3 px-6 rounded-2xl border border-gray-300 text-gray-900 placeholder-gray-400 outline-none
-                focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400 transition duration-300 shadow-sm"
-            />
-          </label>
-
-          {/* Password Input */}
-          <label className="block w-full">
-            <span className="text-gray-800 font-medium mb-2 block">Password</span>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-              className="w-full py-3 px-6 rounded-2xl border border-gray-300 text-gray-900 placeholder-gray-400 outline-none
-                focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400 transition duration-300 shadow-sm"
-            />
-          </label>
-
-          {/* Login Button */}
+    <div className="min-h-screen bg-white flex flex-col md:flex-row relative overflow-hidden">
+      {/* Left Side: Form */}
+      <div className="w-full md:w-1/2 flex items-center justify-center p-12 z-10">
+        <div className="w-full max-w-2xl">
+          <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center tracking-tight">
+            Login
+          </h2>
+          {/* Google Login */}
           <button
-            type="submit"
-            disabled={loading}
-            className={`w-full py-3 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-700 font-extrabold 
-              hover:from-indigo-700 hover:to-purple-800 transition duration-300 text-white text-lg tracking-wide
-              ${loading ? "opacity-70 cursor-not-allowed" : "cursor-pointer"}`}
+            onClick={handleGoogleSignIn}
+            className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-xl py-3 text-gray-800 font-semibold shadow-sm hover:bg-gray-50 transition mb-8 text-lg bg-white"
           >
-            {loading ? "Logging in..." : "Login"}
+            <GoogleIcon />
+            Sign in with Google
           </button>
-        </form>
+          <div className="flex items-center mb-8">
+            <div className="flex-grow h-px bg-gray-300"></div>
+            <span className="px-4 text-gray-500 text-base">or</span>
+            <div className="flex-grow h-px bg-gray-300"></div>
+          </div>
+          {/* Error */}
+          {error && (
+            <div className="mb-6 w-full text-center p-3 rounded-lg bg-red-100 text-red-700 font-semibold animate-pulse shadow-md">
+              {error}
+            </div>
+          )}
+          {/* Login Form */}
+          <form className="space-y-6 w-full" onSubmit={handleSubmit} autoComplete="off">
+            <div>
+              <label className="text-gray-900 font-semibold mb-2 block" htmlFor="email">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                autoFocus
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@example.com"
+                required
+                className="w-full py-3 px-4 rounded-xl border border-gray-400 text-gray-900 text-base placeholder-gray-400 outline-none
+                 focus:border-black focus:ring-2 focus:ring-black transition duration-300 shadow-sm"
+              />
+            </div>
 
-        {/* Divider */}
-        <div className="flex items-center my-8 w-full">
-          <div className="flex-grow border-t border-gray-300" />
-          <span className="px-4 text-gray-500 font-semibold text-sm select-none">or</span>
-          <div className="flex-grow border-t border-gray-300" />
+            <div>
+              <label className="text-gray-900 font-semibold mb-2 block" htmlFor="password">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                className="w-full py-3 px-4 rounded-xl border border-gray-400 text-gray-900 text-base placeholder-gray-400 outline-none
+                  focus:border-black focus:ring-2 focus:ring-black transition duration-300 shadow-sm"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className={`w-full py-5 rounded-xl bg-black font-bold text-white text-xl shadow-md hover:bg-gray-800 transition
+                ${loading ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}`}
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
+          </form>
+          {/* Links */}
+          <div className="mt-8 text-center w-full">
+            <Link
+              to="/forgot-password"
+              className="text-gray-800 hover:text-black text-base font-medium hover:underline transition"
+            >
+              Forgot Password?
+            </Link>
+          </div>
+          <div className="mt-6 text-center text-gray-700 font-medium text-lg">
+            New here?{" "}
+            <Link
+              to="/signup"
+              className="text-black font-bold hover:underline"
+            >
+              Create an account
+            </Link>
+          </div>
         </div>
+      </div>
 
-        {/* Google Sign-In Button */}
-        <button
-          onClick={handleGoogleSignIn}
-          className="w-full flex items-center justify-center py-3 rounded-2xl border border-indigo-600 text-indigo-700 font-semibold text-base
-            bg-indigo-100 hover:bg-indigo-200 hover:text-indigo-900 transition hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-400"
-        >
-          <GoogleIcon />
-          Sign in with Google
-        </button>
+      {/* Right Side: Image + Text */}
+      <div className="w-full md:w-1/2 flex flex-col items-center  p-12 text-center relative">
+        <img
+          src="https://wellfound.com/webpack/881d6e4e067748b390ceb61bbc2ac943.png"
+          alt="Login Illustration"
+          className="max-w-full h-auto mb-8"
+        />
+        <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+          Welcome Back
+        </h1>
+        <p className="text-xl text-gray-700 max-w-lg font-medium">
+          Browse over <span className="font-bold">130K jobs</span> at top companies and fast-growing startups.
+        </p>
 
-        {/* Forgot Password Link */}
-        <div className="mt-6 text-center w-full">
-          <Link
-            to="/forgot-password"
-            className="text-indigo-600 hover:text-indigo-700 text-sm font-medium hover:underline transition"
-          >
-            Forgot Password?
-          </Link>
-        </div>
-
-        {/* Sign Up Link */}
-        <div className="mt-6 text-center text-indigo-700 font-medium">
-          New here?{" "}
-          <Link
-            to="/signup"
-            className="text-purple-700 hover:text-purple-800 font-bold hover:underline"
-          >
-            Create an account
-          </Link>
-        </div>
+        <img
+          src="https://wellfound.com/webpack/af4b21f54db3e2c60e949acc406bad3d.png"
+          alt=""
+          className="hidden md:block absolute bottom-0 right-0 max-w-[280px] z-0 pointer-events-none select-none"
+        />
       </div>
     </div>
   );

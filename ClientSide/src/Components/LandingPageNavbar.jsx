@@ -12,14 +12,14 @@ function LandingPageNav() {
 
   return (
     <nav className="flex justify-between  items-center px-10 py-4 bg-white sticky top-0 z-50 border-b border-gray-300">
-
       {/* Logo */}
       <motion.span
         className="text-4xl font-extrabold tracking-widest select-none cursor-pointer"
-      
-      >
-        Job<span className="text-indigo-600">Portal</span>
+        
+        >
+        Job<span className="text-indigo-500">Portal</span>
       </motion.span>
+
 
       {/* Navigation Links */}
       <ul className="flex gap-12 font-semibold  select-none text-xl">
@@ -29,7 +29,7 @@ function LandingPageNav() {
               to={to}
               end={to === "/"}
               className={({ isActive }) =>
-                `text-gray-700 hover:text-indigo-600 transition-colors duration-300 focus:outline-none focus:ring-indigo-600 rounded-md ${isActive ? "text-indigo-600 font-semibold" : "font-normal"
+                `text-gray-700 hover:text-indigo-600 transition-colors duration-300 focus:outline-none focus:ring-indigo-600 rounded-md ${isActive ? "text-black font-bold" : "font-normal"
                 }`
               }
               tabIndex={0}
@@ -59,7 +59,7 @@ function LandingPageNav() {
         >
           <Link
             to="/login"
-            className="px-6 py-2 border border-indigo-600 text-indigo-600 rounded-md font-medium transition-colors duration-200  block select-none"
+            className="px-6 py-2 border border-black text-black rounded-md font-medium transition-colors duration-200  block select-none"
             aria-label="Login"
           >
             Login
@@ -74,7 +74,7 @@ function LandingPageNav() {
         >
           <Link
             to="/signup"
-            className="px-6 py-2 bg-indigo-600 text-white rounded-md font-medium  duration-200 focus:outline-none block select-none"
+            className="px-6 py-2 bg-black text-white rounded-md font-medium  duration-200 focus:outline-none block select-none"
             aria-label="Sign Up"
           >
             Sign Up

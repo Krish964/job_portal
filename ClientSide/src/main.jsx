@@ -10,8 +10,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>  {/* <--- Yeh zaruri hai */}
       <App />
-      import {ToastContainer} from "react-toastify";
-      // ... in your App.jsx
+       {ToastContainer}
       <ToastContainer
         position="top-right"
         autoClose={3000}

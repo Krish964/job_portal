@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema(
 
     },
 
+
     number: {
       type: Number,
       required: true,
@@ -30,7 +31,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,  
     }, 
-    
+
+  
     refreshToken: {
       type : String
     }

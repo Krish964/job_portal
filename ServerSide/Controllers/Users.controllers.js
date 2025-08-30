@@ -1,11 +1,12 @@
 import { User } from "../Models/User.models.js";
 import { uploadFileonCloudinary } from "../Utils/Cloudniary.js";
 import { sendMail } from "./mail.controllers.js";
+
 export const registerUser = async (req, res) => {
   try {
     // getting userdetail
     const { username, email, number, password } = req.body;
-
+    console.log(username, email, number, password)
     // 1. Validate required fields
     if (
       [username, email, password].some((field) => !field?.trim()) ||

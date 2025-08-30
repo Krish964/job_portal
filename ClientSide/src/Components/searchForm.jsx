@@ -15,7 +15,7 @@ function SearchForm({ search, setSearch, location, setLocation }) {
   return (
     <div>
       <form
-        className="p-6 flex flex-col md:flex-row gap-5 items-center bg-white"
+        className="p-6 flex flex-col md:flex-row gap-5 items-center "
         onSubmit={(e) => e.preventDefault()}
       >
         {/* Keyword */}
@@ -58,13 +58,10 @@ function SearchForm({ search, setSearch, location, setLocation }) {
 
         <div className="select">
           <select className = 'bg-gray-200 px-6 py-3 rounded-lg text-lg' name="jobs" id="jobs">
-            <option className = '' value="Select">Select</option>
-            <option className='' value="Ui/Ux Desginer">Ui/Ux Desginer</option>
-            <option className='' value="FrontEnd Developer">FrontEnd Developer</option>
-            <option className='' value="Backend Developer">Backend Developer</option>
-            <option className='' value="Data Analytics">Data Analytics</option>
-            <option className='' value="Sales">Sales</option>
-            <option className='' value="Marketing">Marketing</option>
+            <option className = '' value="Select">Work From Anywhere</option>
+            <option className='' value="Ui/Ux Desginer">Remote</option>
+            <option className='' value="FrontEnd Developer">Work From Home</option>
+            <option className='' value="Backend Developer">Foregin</option>
           </select>
         </div>
 
