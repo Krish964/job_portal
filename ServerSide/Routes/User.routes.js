@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { registerUser } from "../Controllers/Users.controllers.js";
 import { upload } from "../Middlewares/multer.middleware.js"
-import { loginUser } from "../Controllers/login.controllers.js";
+import { loginUser, logoutUser } from "../Controllers/login.controllers.js";
 import { handleJobData } from "../Controllers/jobs.controllers.js"
 import { authenticateUser } from "../Middlewares/Auth.middleware.js";
 import { getAllApplications } from "../Controllers/admin.controllers.js"
@@ -9,6 +9,7 @@ import { handlePasswordReset } from "../Controllers/forgetPassword.controllers.j
 import { resetPasswordHandler } from "../Controllers/newPassword.controllers.js";
 import { notificationHandler } from "../Controllers/Notification.controllers.js";
 import { otpHandler, verifyOtp } from "../Controllers/Otp.controllers.js";
+import { getRecruiterData, LinkedInUrl } from "../Controllers/SocialNetworks.controllers.js";
 const router = Router()
 
 router.route("/register").post(
@@ -25,5 +26,7 @@ router.route("/reset-password").post(resetPasswordHandler)
 router.route("/notification").post(notificationHandler)
 router.route("/send-otp").post(otpHandler)
 router.route("/verify-otp").post(verifyOtp)
-
+router.route("/linkedInUrl").get(LinkedInUrl)
+router.route("/getRecruiterData").get(getRecruiterData)
+router.route("/logout").post(authenticateUser , logoutUser)
 export default router

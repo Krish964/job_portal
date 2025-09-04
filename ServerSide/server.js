@@ -6,12 +6,16 @@ import cors from "cors";
 
 import connectDB from "./DB/Database.js";
 import userRoutes from "./Routes/User.routes.js";
-
+import cookieParser from "cookie-parser";
 const app = express();
 const port = process.env.PORT || 8000;
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173", // your frontend origin here
+  credentials: true, // allow cookie credentials
+}));
 app.use(express.json());
+app.use(cookieParser())
 
 connectDB();
 

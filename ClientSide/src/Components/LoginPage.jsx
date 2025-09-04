@@ -62,13 +62,13 @@ export default function LoginPage() {
         autoClose: 1800,
         theme: "colored",
       });
-
       setTimeout(() => {
         if (data.user.isAdmin) {
           navigate("/adminPanel");
         } else if (data.user.role === "hr") {
           navigate("/HrPage");
-        } else {
+        }
+        else {
           navigate("/mainpage");
         }
       }, 750);

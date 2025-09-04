@@ -13,10 +13,10 @@ export const loginUser = async (req, res) => {
       user.refreshToken = refreshToken;
       await user.save({ validateBeforeSave: false });
 
-      return {accessToken , refreshToken}
-      
+      return { accessToken, refreshToken }
+
     } catch (error) {
-      return res.status(400).json({ error:"Error in generating refresh tokens and access token" })
+      return res.status(400).json({ error: "Error in generating refresh tokens and access token" })
     }
   }
 
@@ -98,22 +98,59 @@ export const loginUser = async (req, res) => {
     }
 
     // Generate tokens via User model methods
-    const { accessToken , refreshToken} = await generateAccessTokenAndRefreshTokens(user._id)
+    const { accessToken, refreshToken } = await generateAccessTokenAndRefreshTokens(user._id)
+    const options = {
+      httpOnly: true,
+      secure: true
+    }
 
-    return res.status(200).json({
-      message: "Login successful",
-      user: {
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        isAdmin: false,
-        role: "user",
-      },
-      accessToken,
-      refreshToken,
-    });
+    return res.status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", refreshToken, options)
+      .json({
+        message: "Login successful",
+        user: {
+          _id: user._id,
+          username: user.username,
+          email: user.email,
+          isAdmin: false,
+          role: "user",
+        },
+
+        accessToken,
+        refreshToken
+      });
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ error: "An internal server error occurred" });
   }
 };
+
+
+export const logoutUser = async (req, res) => {
+  await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set : {
+      refreshToken : undefined
+      } 
+    },
+
+    {
+      new : true
+    }
+  )
+
+  const options = {
+    httpOnly: true,
+    secure: true
+  }
+
+  res.status(200)
+    .clearCookie("accessToken" , options)
+    .clearCookie("refreshToken", options)
+    .json({
+      success: true,
+    message :"SuccessFully loggedOut"
+  })
+}
