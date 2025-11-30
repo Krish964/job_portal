@@ -16,6 +16,9 @@ const recruiterSchema = new mongoose.Schema({
 
   photo: {
     type: String,
+  }, 
+  role: {
+    type :String
   }
 }, { timestamps: true })
 

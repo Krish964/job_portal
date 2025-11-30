@@ -19,7 +19,7 @@ function LandingPageNav() {
       <nav className="flex justify-between items-center px-10 py-4 bg-white sticky top-0 z-50 border-b border-gray-300">
         {/* Logo */}
         <motion.span className="text-4xl font-extrabold tracking-widest select-none cursor-pointer">
-          Job<span className="text-indigo-500">Portal</span>
+          Job<span className="text-indigo-500">Matrix</span>
         </motion.span>
 
         {/* Navigation Links */}

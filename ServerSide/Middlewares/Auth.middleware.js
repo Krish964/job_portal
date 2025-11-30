@@ -4,14 +4,14 @@ import { User } from "../Models/User.models.js";
 export const authenticateUser = async (req, res, next) => {
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
-    console.log(token)
+    console.log("Backend ka admin token :" , token)
     if (!token) {
       return res.status(401).json({ message: "No token provided" });
     }
 
     const decoded = jwt.verify(token, process.env.ACCESS_SECRET_TOKEN);
     const user = await User.findById(decoded._id).select("-password -refreshToken");
-
+U
     if (!user) {
       return res.status(401).json({ message: "Cannot get user Details...please Sign Up" });
 

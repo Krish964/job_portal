@@ -123,7 +123,7 @@ function MainPageNavbar() {
             className="text-3xl font-extrabold bg-gradient-to-r from-cyan-500 via-blue-400 to-purple-500 bg-clip-text text-transparent tracking-widest transition hover:brightness-125 duration-300"
             style={{ letterSpacing: "2px" }}
           >
-            Job<span className="text-black">Portal</span>
+            Job<span className="text-black">Matrix</span>
           </span>
         </NavLink>
 
@@ -171,24 +171,25 @@ function MainPageNavbar() {
             )}
             {/* Notification modal content */}
             {notifModal && (
-              <div className="absolute right-0 mt-2 w-80 max-h-72 overflow-y-auto bg-gray-900 border border-cyan-600 rounded shadow-lg p-4 z-50">
-                <p className="text-cyan-400 font-semibold mb-2">Notifications</p>
+              <div className="absolute right-0 mt-2 w-96 max-h-80 overflow-y-auto bg-white border border-gray-300 rounded shadow-lg p-4 z-50">
+                <p className="text-black font-semibold mb-2">Notifications</p>
                 {notifications.length === 0 ? (
-                  <p className="text-gray-300 text-sm">No notifications yet.</p>
+                  <p className="text-gray-600 text-sm">No notifications yet.</p>
                 ) : (
-                  <ul className="max-h-60 overflow-auto">
+                  <ul className="max-h-72 overflow-auto">
                     {notifications.map((notif, idx) => (
                       <li
                         key={idx}
-                        className="text-gray-300 text-sm mb-1 border-b border-gray-700 pb-1"
+                        className="text-black text-base mb-2 border-b border-gray-200 pb-2"
                       >
-                        {notif}
+                        {notif} {/* Plain text notification message only */}
                       </li>
                     ))}
                   </ul>
                 )}
               </div>
             )}
+
           </div>
 
           {/* User Icon + Modal */}

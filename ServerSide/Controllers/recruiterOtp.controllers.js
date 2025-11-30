@@ -1,8 +1,14 @@
 import { sendMail } from "./mail.controllers.js";
-import { Otp } from "../Models/Otp.models.js"; // adjust path accordingly
+import { Otp } from "../Models/Otp.models.js"; 
+import { Recruiter } from "../Models/recruiter.models.js";
 
-export const otpHandler = async (req, res) => {
+export const RecruiterotpHandler = async (req, res) => {
   const { email } = req.body;
+  
+  const isRecruiter = await Recruiter.findOne({ email })
+  if (!isRecruiter || isRecruiter.role !== "recruiter") {
+    return res.status(400).json({error : "You are not an recruiter"})
+  }
 
   try {
     const verificationCode = Math.floor(1000 + Math.random() * 9000);
@@ -39,7 +45,9 @@ Best regards,
   }
 };
 
-export const verifyOtp = async (req, res) => {
+
+
+export const verifyRecruiterOtp = async (req, res) => {
   const { email, otpCode } = req.body;
 
   if (!email || !otpCode) {
@@ -78,6 +86,6 @@ export const verifyOtp = async (req, res) => {
 
   } catch (error) {
     console.error("OTP verification error:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error"});
   }
 };

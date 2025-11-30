@@ -3,9 +3,9 @@ import emailImg from "/src/assets/Email.png";
 
 function ForgetPassword() {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState(""); // success/failure message
+  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const [isSending, setIsSending] = useState(false); // to track button state
+  const [isSending, setIsSending] = useState(false);
 
   const handleSendOtp = (e) => {
     e.preventDefault();
@@ -35,29 +35,29 @@ function ForgetPassword() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-blue-50 to-blue-100 px-4">
-      <div className="bg-white rounded-3xl flex max-w-5xl w-full overflow-hidden shadow-lg border border-blue-300">
+    <div className="min-h-screen flex items-center justify-center bg-white px-4">
+      <div className="bg-white rounded-2xl flex max-w-5xl w-full overflow-hidden shadow-md border border-gray-200">
         {/* Left: Illustration */}
-        <div className="hidden md:flex flex-1 items-center justify-center bg-gradient-to-b from-blue-400 to-indigo-600 p-12">
+        <div className="hidden md:flex flex-1 items-center justify-center bg-gray-50 p-12">
           <img
             src={emailImg}
             alt="Security Illustration"
-            className="w-80 h-80 object-contain drop-shadow-xl rounded-2xl"
+            className="w-72 h-72 object-contain rounded-lg"
           />
         </div>
 
         {/* Right: Form */}
-        <div className="flex-1 p-14 flex flex-col justify-center">
-          <h2 className="text-5xl font-extrabold text-indigo-700 mb-6 select-none">
+        <div className="flex-1 p-12 flex flex-col justify-center">
+          <h2 className="text-4xl font-bold text-black mb-6 select-none">
             Forgot Password?
           </h2>
-          <p className="mb-10 text-lg text-indigo-600 max-w-md">
+          <p className="mb-8 text-base text-gray-700 max-w-md">
             Enter your registered email address to receive an OTP.
           </p>
 
-          <form onSubmit={handleSendOtp} className="flex flex-col gap-6">
+          <form onSubmit={handleSendOtp} className="flex flex-col gap-5">
             <label
-              className="text-indigo-600 font-semibold text-lg"
+              className="text-gray-800 font-semibold text-base"
               htmlFor="email"
             >
               Email Address
@@ -69,17 +69,18 @@ function ForgetPassword() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="rounded-xl border border-indigo-400 bg-white px-6 py-4 text-indigo-900 placeholder-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg transition"
+              className="rounded-lg border border-gray-300 bg-white px-5 py-3 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 text-base transition"
               disabled={isSending}
             />
 
             <button
               type="submit"
               disabled={isSending}
-              className={`mt-6 w-full text-white font-bold py-4 rounded-2xl text-xl shadow-lg transition-transform transform focus:outline-none focus:ring-4 focus:ring-indigo-400 ${isSending
-                  ? "bg-indigo-300 cursor-not-allowed"
-                  : "bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-purple-700 hover:to-indigo-600 hover:scale-105"
-                }`}
+              className={`mt-5 w-full text-white font-semibold py-3 rounded-lg text-base shadow-sm transition focus:outline-none ${
+                isSending
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-black hover:bg-gray-900"
+              }`}
             >
               {isSending ? "Sending..." : "Send OTP"}
             </button>
@@ -87,10 +88,10 @@ function ForgetPassword() {
 
           {/* Success and error messages */}
           {message && (
-            <p className="mt-4 text-green-600 font-semibold select-none">{message}</p>
+            <p className="mt-4 text-green-600 font-medium select-none">{message}</p>
           )}
           {error && (
-            <p className="mt-4 text-red-600 font-semibold select-none">{error}</p>
+            <p className="mt-4 text-red-600 font-medium select-none">{error}</p>
           )}
         </div>
       </div>

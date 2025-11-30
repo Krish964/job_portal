@@ -45,7 +45,8 @@ export const registerUser = async (req, res) => {
       email,
       number,
       password, // 👉 NOTE: you should hash this in real-world apps
-      resume: resume?.url || "no url found"
+      resume: resume?.url || "no url found",
+      role : "user"
     });
     
     // Send mail to the new registerd user

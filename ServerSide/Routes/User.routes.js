@@ -10,6 +10,7 @@ import { resetPasswordHandler } from "../Controllers/newPassword.controllers.js"
 import { notificationHandler } from "../Controllers/Notification.controllers.js";
 import { otpHandler, verifyOtp } from "../Controllers/Otp.controllers.js";
 import { getRecruiterData, LinkedInUrl } from "../Controllers/SocialNetworks.controllers.js";
+import { RecruiterotpHandler, verifyRecruiterOtp } from "../Controllers/recruiterOtp.controllers.js";
 const router = Router()
 
 router.route("/register").post(
@@ -28,5 +29,7 @@ router.route("/send-otp").post(otpHandler)
 router.route("/verify-otp").post(verifyOtp)
 router.route("/linkedInUrl").get(LinkedInUrl)
 router.route("/getRecruiterData").get(getRecruiterData)
-router.route("/logout").post(authenticateUser , logoutUser)
+router.route("/logout").post(authenticateUser, logoutUser)
+router.route("/verifyRecruiterOtp").post(verifyRecruiterOtp)
+router.route("/RecruiterotpHandler").post(RecruiterotpHandler)
 export default router

@@ -67,7 +67,8 @@ export const LinkedInUrl = async (req, res) => {
       name: recruiterData.name,
       email: recruiterData.email,
       phone: recruiterData?.phone || "Number is missing",
-      photo: recruiterData?.picture,
+       photo: recruiterData?.picture,
+      role : "recruiter"
     });
 
     await recruiter.save();

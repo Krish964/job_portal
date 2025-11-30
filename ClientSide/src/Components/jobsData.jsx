@@ -68,10 +68,10 @@ function Jobs() {
               style={{ flex: 1 }}
             >
 
-              <div className="buttons flex gap-5">
-                <button className='text-xl'>Browse All</button>
-                <button className='text-xl'>Saved</button>
-                <button className='text-xl'>Hidden</button>
+              <div className="buttons flex gap-5 ">
+                <button className='text-xl font-medium cursor-pointer'>Browse All</button>
+                <button className='text-xl  cursor-pointer'>Saved</button>
+                <button className='text-xl  cursor-pointer'>Hidden</button>
               </div>
               {jobs.map((job) => (
                 <JobCard

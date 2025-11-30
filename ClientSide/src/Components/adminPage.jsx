@@ -9,6 +9,7 @@ function AdminPage() {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
+    console.log("frontend adminToken : ",token)
     fetch("http://localhost:8000/api/users/applyJobs", {
       headers: {
         Authorization: `Bearer ${token}`,
